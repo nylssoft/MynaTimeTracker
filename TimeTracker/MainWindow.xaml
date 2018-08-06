@@ -1,0 +1,181 @@
+﻿<Window x:Class="TimeTracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:self="clr-namespace:TimeTracker"
+        xmlns:props="clr-namespace:TimeTracker.Properties"
+        mc:Ignorable="d"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Height="450" Width="650" MinWidth="200" MinHeight="300" Icon="Images/logo.png">
+    <Window.Resources>
+        <self:TimeValueConverter x:Key="TimeValueConverter" />
+        <self:DurationValueConverter x:Key="DurationValueConverter" />
+        <Style x:Key="ImageEnabled" TargetType="Image">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.25"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="self:CustomCommands.Next" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Previous" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Start" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Stop" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Add" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Remove" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.ConfigureProjects" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+    </Window.CommandBindings>
+    <Grid Margin="5,5,5,5">
+        <DockPanel LastChildFill="True">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Menu Grid.Row="0" KeyboardNavigation.TabIndex="1">
+                    <MenuItem Header="{x:Static props:Resources.MENUITEM_FILE}">
+                        <MenuItem Command="self:CustomCommands.ConfigureProjects"/>
+                        <Separator/>
+                        <MenuItem Command="self:CustomCommands.Exit">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/application-exit-5.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MENUITEM_EDIT}">
+                        <MenuItem Command="self:CustomCommands.Add">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="self:CustomCommands.Edit">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/edit.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="self:CustomCommands.Remove">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static props:Resources.MENUITEM_HELP}">
+                        <MenuItem Command="self:CustomCommands.About">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/document-properties.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+                <ToolBarTray Grid.Row="1">
+                    <ToolBar>
+                        <Label Margin="0,5,0,5" Content="{x:Static props:Resources.LABEL_PROJECT}" Target="{Binding ElementName=comboBoxProject}"/>
+                        <ComboBox x:Name="comboBoxProject" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left"></ComboBox>
+                    </ToolBar>
+                    <ToolBar>
+                        <Button Command="self:CustomCommands.Start" ToolTip="{x:Static props:Resources.TOOLTIP_START}">
+                            <Image Source="Images/32x32/media-record.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button Command="self:CustomCommands.Stop" ToolTip="{x:Static props:Resources.TOOLTIP_STOP}">
+                            <Image Source="Images/32x32/media-playback-stop-7.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}">
+                            <Image Source="Images/32x32/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button Command="self:CustomCommands.Remove" ToolTip="{x:Static props:Resources.TOOLTIP_REMOVE}">
+                            <Image Source="Images/32x32/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                        <Button Command="self:CustomCommands.Edit" ToolTip="{x:Static props:Resources.TOOLTIP_EDIT}">
+                            <Image Source="Images/32x32/edit.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DATE}" Target="{Binding ElementName=datePicker}" Margin="0,0,5,0" HorizontalAlignment="Left"/>
+                    <DatePicker Grid.Column="1" x:Name="datePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" Margin="0,0,5,0" Height="23" Width="150"/>
+                    <Button Command="self:CustomCommands.Previous" Grid.Column="2" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}" Margin="0,0,5,0">
+                        <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                    <Button Command="self:CustomCommands.Next" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" Margin="0,0,5,0">
+                        <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                    </Button>
+                    <TextBlock Grid.Column="4" x:Name="textBlockTotal" Text="Total: 0 hours" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                </Grid>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom">
+                <StatusBar>
+                    <StatusBarItem>
+                        <TextBlock x:Name="textBlockStatus" TextTrimming="CharacterEllipsis"/>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
+            <ListView x:Name="listView" VirtualizingPanel.IsVirtualizing="False" MouseDoubleClick="ListView_MouseDoubleClick">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="60">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader x:Name="gridViewColumHeaderStartTime" Tag="StartTime" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_STARTTIME}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StartTime, Converter={StaticResource TimeValueConverter}}" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="60">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="EndTime" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_ENDTIME}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EndTime, Converter={StaticResource TimeValueConverter}}" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="60">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Duration" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_DURATION}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Duration, Converter={StaticResource DurationValueConverter}}" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Project}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Project" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_PROJECT}" />
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Description}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Description" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_DESCRIPTION}" />
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Window>

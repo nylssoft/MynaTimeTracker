@@ -1,0 +1,57 @@
+﻿<Window x:Class="TimeTracker.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:props="clr-namespace:TimeTracker.Properties"
+        mc:Ignorable="d"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"        
+        Height="260" Width="400" Icon="Images/logo.png">
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DATE}"/>
+        <DatePicker x:Name="datePicker" Grid.Row="0" Grid.Column="1" Height="23" Width="100" HorizontalAlignment="Left" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="{x:Static props:Resources.LABEL_STARTTIME_HOUR}" Target="{Binding ElementName=textBoxStartHour}"/>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="117"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBoxStartHour" Grid.Column="0" Width="40" Height="23" HorizontalAlignment="Left" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
+            <Label Grid.Column="1" Content="{x:Static props:Resources.LABEL_STARTTIME_MINUTE}" Target="{Binding ElementName=textBoxStartMinute}"/>
+            <TextBox x:Name="textBoxStartMinute" Grid.Column="2" Width="40" Height="23" HorizontalAlignment="Left" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
+        </Grid>
+        <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_ENDTIME_HOUR}" Target="{Binding ElementName=textBoxEndHour}"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="117"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBoxEndHour" Grid.Column="0" Width="40" Height="23" HorizontalAlignment="Left" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus" />
+            <Label Grid.Column="1" Content="{x:Static props:Resources.LABEL_ENDTIME_MINUTE}" Target="{Binding ElementName=textBoxEndMinute}"/>
+            <TextBox x:Name="textBoxEndMinute" Grid.Column="2" Width="40" Height="23" HorizontalAlignment="Left" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
+        </Grid>
+        <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_PROJECT}"  Target="{Binding ElementName=comboBoxProject}" />
+        <ComboBox x:Name="comboBoxProject" Grid.Row="3" Grid.Column="1" Width="200" Height="23" HorizontalAlignment="Left" SelectionChanged="ComboBox_SelectionChanged"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DESCRIPTION}" Target="{Binding ElementName=textBoxDescription}" />
+        <TextBox x:Name="textBoxDescription" Grid.Row="4" Grid.Column="1" Height="23" HorizontalAlignment="Stretch" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click" />
+            <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
+        </StackPanel>
+    </Grid>
+</Window>
