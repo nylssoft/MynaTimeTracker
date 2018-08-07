@@ -9,7 +9,7 @@
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
-        Height="450" Width="650" MinWidth="200" MinHeight="300" Icon="Images/logo.png">
+        Height="450" Width="660" MinWidth="200" MinHeight="300" Icon="Images/logo.png">
     <Window.Resources>
         <self:TimeValueConverter x:Key="TimeValueConverter" />
         <self:DurationValueConverter x:Key="DurationValueConverter" />

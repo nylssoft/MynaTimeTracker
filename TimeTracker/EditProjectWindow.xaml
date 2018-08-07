@@ -6,7 +6,7 @@
         xmlns:props="clr-namespace:TimeTracker.Properties"
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Icon="Images/logo.png" Height="110" Width="500">
+        Icon="Images/logo.png" Height="110" Width="500" ResizeMode="NoResize">
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

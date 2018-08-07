@@ -65,9 +65,11 @@ namespace TimeTracker
 
         private void ButtonAddProject_Click(object sender, RoutedEventArgs e)
         {
+            var txt = textBoxProject.Text.Trim();
+            if (string.IsNullOrEmpty(txt)) return;
             try
             {
-                var p = database.InsertProject(textBoxProject.Text.Trim());
+                var p = database.InsertProject(txt);
                 projects.Add(p);
                 SelectProject(p);
                 changed = true;

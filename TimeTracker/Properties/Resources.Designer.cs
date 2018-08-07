@@ -268,7 +268,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D_escription:.
+        ///   Looks up a localized string similar to Desc_ription:.
         /// </summary>
         public static string LABEL_DESCRIPTION {
             get {
@@ -407,7 +407,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add working time.
+        ///   Looks up a localized string similar to Add Working Time.
         /// </summary>
         public static string TITLE_ADD {
             get {
@@ -416,7 +416,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure projects.
+        ///   Looks up a localized string similar to Configure Projects.
         /// </summary>
         public static string TITLE_CONFIGURE_PROJECT {
             get {
@@ -425,7 +425,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit working time.
+        ///   Looks up a localized string similar to Edit Working Time.
         /// </summary>
         public static string TITLE_EDIT {
             get {
@@ -434,7 +434,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit project.
+        ///   Looks up a localized string similar to Edit Project.
         /// </summary>
         public static string TITLE_EDIT_PROJECT {
             get {

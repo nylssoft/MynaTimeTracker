@@ -187,7 +187,7 @@
     <value>_Date:</value>
   </data>
   <data name="LABEL_DESCRIPTION" xml:space="preserve">
-    <value>D_escription:</value>
+    <value>Desc_ription:</value>
   </data>
   <data name="LABEL_ENDTIME_HOUR" xml:space="preserve">
     <value>_End Time Hour:</value>
@@ -236,16 +236,16 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Total working time on {0}: {1} hours.</value>
   </data>
   <data name="TITLE_ADD" xml:space="preserve">
-    <value>Add working time</value>
+    <value>Add Working Time</value>
   </data>
   <data name="TITLE_CONFIGURE_PROJECT" xml:space="preserve">
-    <value>Configure projects</value>
+    <value>Configure Projects</value>
   </data>
   <data name="TITLE_EDIT" xml:space="preserve">
-    <value>Edit working time</value>
+    <value>Edit Working Time</value>
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
-    <value>Edit project</value>
+    <value>Edit Project</value>
   </data>
   <data name="TITLE_TIMETRACKER" xml:space="preserve">
     <value>Working Time Recording</value>
