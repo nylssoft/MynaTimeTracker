@@ -156,6 +156,28 @@ namespace TimeTracker
             }
         }
 
+        public List<Project> SelectProjectInUse()
+        {
+            var ret = new List<Project>();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText =
+                    "SELECT DISTINCT prj.rowid, prj.name FROM project prj, worktime wt" +
+                    " WHERE prj.rowid = wt.projectid ORDER BY prj.name";
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(new Project { Id = reader.GetInt64(0), Name = reader.GetString(1) });
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
         public List<Project> SelectAllProjects()
         {
             var ret = new List<Project>();

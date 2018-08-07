@@ -31,6 +31,7 @@ namespace TimeTracker
             Owner = owner;
             Title = title;
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
             comboBoxProject.ItemsSource = projects;
             if (wt != null)
             {

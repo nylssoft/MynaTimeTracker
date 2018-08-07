@@ -18,17 +18,21 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace TimeTracker
 {
     public partial class ConfigureProjectWindow : Window
     {
+        public bool Changed { get; private set; }
+
         private ObservableCollection<Project> projects = new ObservableCollection<Project>();
         private Database database;
-        private bool changed = false;
+        private ISet<Project> projectsInUse;
 
         public ConfigureProjectWindow(Window owner, string title, Database database)
         {
@@ -42,14 +46,28 @@ namespace TimeTracker
             {
                 projects.Add(p);
             }
+            projectsInUse = new HashSet<Project>(database.SelectProjectInUse());
             textBoxProject.Focus();
+            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listBoxProject.ItemsSource);
+            viewlist.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             UpdateControls();
         }
 
         private void UpdateControls()
         {
-            buttonAddProject.IsEnabled = textBoxProject.Text.Trim().Length > 0;
-            buttonRemoveProject.IsEnabled = listBoxProject.SelectedItems.Count > 0;
+            var selprj = listBoxProject.SelectedItem as Project;
+            var txt = textBoxProject.Text.Trim();
+            bool exists = false;
+            foreach (var prj in projects)
+            {
+                if (string.Equals(prj.Name, txt))
+                {
+                    exists = true;
+                    break;
+                }
+            }            
+            buttonAddProject.IsEnabled = txt.Length > 0 && !exists;
+            buttonRemoveProject.IsEnabled = selprj != null && !projectsInUse.Contains(selprj);
             buttonEditProject.IsEnabled = listBoxProject.SelectedItems.Count == 1;
         }
 
@@ -67,12 +85,19 @@ namespace TimeTracker
         {
             var txt = textBoxProject.Text.Trim();
             if (string.IsNullOrEmpty(txt)) return;
+            foreach (var prj in projects)
+            {
+                if (string.Equals(prj.Name, txt))
+                {
+                    return;
+                }
+            }
             try
             {
                 var p = database.InsertProject(txt);
                 projects.Add(p);
-                SelectProject(p);
-                changed = true;
+                textBoxProject.Text = "";
+                Changed = true;
                 UpdateControls();
             }
             catch (Exception ex)
@@ -103,14 +128,14 @@ namespace TimeTracker
             if (listBoxProject.SelectedItems.Count != 1) return;
             Project prj = listBoxProject.SelectedItem as Project;
             if (prj == null) return;
-            var w = new EditProjectWindow(this, Properties.Resources.TITLE_EDIT_PROJECT, prj.Name);
+            var w = new EditProjectWindow(this, Properties.Resources.TITLE_EDIT_PROJECT, prj, projects);
             if (w.ShowDialog() == true)
             {
                 try
                 {
                     database.RenameProject(prj, w.ProjectName);
                     SelectProject(prj);
-                    changed = true;
+                    Changed = true;
                     UpdateControls();
                 }
                 catch (Exception ex)
@@ -125,17 +150,20 @@ namespace TimeTracker
             if (listBoxProject.SelectedItems.Count > 0)
             {
                 int idx = listBoxProject.SelectedIndex;
-                List<Project> selected = new List<Project>();
+                List<Project> tobedeleted = new List<Project>();
                 foreach (Project p in listBoxProject.SelectedItems)
                 {
-                    selected.Add(p);
+                    if (!projectsInUse.Contains(p))
+                    {
+                        tobedeleted.Add(p);
+                    }
                 }
                 try
                 {
-                    foreach (var p in selected)
+                    foreach (var p in tobedeleted)
                     {
                         database.DeleteProject(p);
-                        changed = true;
+                        Changed = true;
                         projects.Remove(p);
                     }
                 }
@@ -183,10 +211,6 @@ namespace TimeTracker
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (changed)
-            {
-                DialogResult = true;
-            }
             Close();
         }
 

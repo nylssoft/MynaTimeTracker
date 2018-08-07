@@ -55,5 +55,23 @@ namespace TimeTracker
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Project prj)
+            {
+                return Id > 0 && Id == prj.Id || Id == 0 && Name == prj.Name;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            if (Id > 0)
+            {
+                return Id.GetHashCode();
+            }
+            return Name.GetHashCode();
+        }
     }
 }

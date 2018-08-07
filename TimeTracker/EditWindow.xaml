@@ -6,7 +6,7 @@
         xmlns:props="clr-namespace:TimeTracker.Properties"
         mc:Ignorable="d"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"        
-        Height="260" Width="400" Icon="Images/logo.png">
+        Height="260" Width="400" Icon="Images/logo.png" ResizeMode="NoResize">
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -51,7 +51,7 @@
         <TextBox x:Name="textBoxDescription" Grid.Row="4" Grid.Column="1" MaxLength="255" Height="23" HorizontalAlignment="Stretch" TextChanged="TextBox_Changed" GotFocus="TextBox_GotFocus"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="buttonOK" IsDefault="True" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click" />
-            <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
+            <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,0,0" />
         </StackPanel>
     </Grid>
 </Window>

@@ -114,6 +114,8 @@ namespace TimeTracker
             var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
             viewlist.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
             viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            var viewlistprojects = (CollectionView)CollectionViewSource.GetDefaultView(comboBoxProject.ItemsSource);
+            viewlistprojects.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             init = false;
             sortDecorator.Click(gridViewColumHeaderStartTime);
         }
@@ -484,7 +486,8 @@ namespace TimeTracker
             try
             {
                 var dlg = new ConfigureProjectWindow(this, Properties.Resources.TITLE_CONFIGURE_PROJECT, database);
-                if (dlg.ShowDialog() == true)
+                dlg.ShowDialog();
+                if (dlg.Changed)
                 {
                     Project selprj = comboBoxProject.SelectedItem as Project;
                     projects.Clear();

@@ -178,5 +178,12 @@
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\media-playback-stop-7.png" />
+    <Resource Include="Images\16x16\media-record.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\task-new.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

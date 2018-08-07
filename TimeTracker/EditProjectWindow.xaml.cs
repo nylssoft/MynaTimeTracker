@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,20 +25,32 @@ namespace TimeTracker
     {
         public string ProjectName { get; private set; }
 
-        public EditProjectWindow(Window owner, string title, string projectName)
+        private ObservableCollection<Project> projects;
+
+        public EditProjectWindow(Window owner, string title, Project project, ObservableCollection<Project> projects)
         {
             Owner = owner;
             Title = title;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            this.projects = projects;
             InitializeComponent();
-            textBoxProject.Text = projectName;
+            textBoxProject.Text = project.Name;
             textBoxProject.Focus();
             buttonOK.IsEnabled = false;
         }
 
         private void UpdateControls()
         {
-            bool enabled = !string.IsNullOrEmpty(textBoxProject.Text);
+            bool exists = false;
+            string txt = textBoxProject.Text.Trim();
+            foreach (var prj in projects)
+            {
+                if (string.Equals(prj.Name, txt))
+                {
+                    exists = true;
+                }
+            }
+            bool enabled = !string.IsNullOrEmpty(txt) && !exists;
             buttonOK.IsEnabled = enabled;
         }
 
@@ -51,6 +64,14 @@ namespace TimeTracker
         private void TextBoxProject_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateControls();
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox tb)
+            {
+                tb.CaretIndex = tb.Text.Length;
+            }
         }
     }
 }

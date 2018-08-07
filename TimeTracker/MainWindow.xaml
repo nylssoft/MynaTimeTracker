@@ -43,7 +43,11 @@
                 </Grid.RowDefinitions>
                 <Menu Grid.Row="0" KeyboardNavigation.TabIndex="1">
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_FILE}">
-                        <MenuItem Command="self:CustomCommands.ConfigureProjects"/>
+                        <MenuItem Command="self:CustomCommands.ConfigureProjects">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/task-new.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <Separator/>
                         <MenuItem Command="self:CustomCommands.Exit">
                             <MenuItem.Icon>
@@ -52,6 +56,17 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_EDIT}">
+                        <MenuItem Command="self:CustomCommands.Start">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/media-record.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="self:CustomCommands.Stop">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/media-playback-stop-7.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
                         <MenuItem Command="self:CustomCommands.Add">
                             <MenuItem.Icon>
                                 <Image Source="Images/16x16/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
