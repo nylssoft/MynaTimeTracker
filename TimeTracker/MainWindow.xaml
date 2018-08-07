@@ -77,24 +77,24 @@
                     </MenuItem>
                 </Menu>
                 <ToolBarTray Grid.Row="1">
-                    <ToolBar>
+                    <ToolBar KeyboardNavigation.TabNavigation="Continue">
                         <Label Margin="0,5,0,5" Content="{x:Static props:Resources.LABEL_PROJECT}" Target="{Binding ElementName=comboBoxProject}"/>
-                        <ComboBox x:Name="comboBoxProject" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox x:Name="comboBoxProject" MinWidth="100" Margin="0,3,0,3" HorizontalAlignment="Left" KeyboardNavigation.TabIndex="2"/>
                     </ToolBar>
-                    <ToolBar>
-                        <Button Command="self:CustomCommands.Start" ToolTip="{x:Static props:Resources.TOOLTIP_START}">
+                    <ToolBar KeyboardNavigation.TabNavigation="Continue">
+                        <Button Command="self:CustomCommands.Start" ToolTip="{x:Static props:Resources.TOOLTIP_START}" KeyboardNavigation.TabIndex="3">
                             <Image Source="Images/32x32/media-record.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Stop" ToolTip="{x:Static props:Resources.TOOLTIP_STOP}">
+                        <Button Command="self:CustomCommands.Stop" ToolTip="{x:Static props:Resources.TOOLTIP_STOP}" KeyboardNavigation.TabIndex="4">
                             <Image Source="Images/32x32/media-playback-stop-7.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}">
+                        <Button Command="self:CustomCommands.Add" ToolTip="{x:Static props:Resources.TOOLTIP_ADD}" KeyboardNavigation.TabIndex="5">
                             <Image Source="Images/32x32/list-add-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Remove" ToolTip="{x:Static props:Resources.TOOLTIP_REMOVE}">
+                        <Button Command="self:CustomCommands.Remove" ToolTip="{x:Static props:Resources.TOOLTIP_REMOVE}" KeyboardNavigation.TabIndex="6">
                             <Image Source="Images/32x32/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
-                        <Button Command="self:CustomCommands.Edit" ToolTip="{x:Static props:Resources.TOOLTIP_EDIT}">
+                        <Button Command="self:CustomCommands.Edit" ToolTip="{x:Static props:Resources.TOOLTIP_EDIT}" KeyboardNavigation.TabIndex="7">
                             <Image Source="Images/32x32/edit.png" Style="{StaticResource ImageEnabled}" Width="32" Height="32"/>
                         </Button>
                     </ToolBar>
@@ -108,11 +108,11 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label VerticalAlignment="Center" Grid.Column="0" Content="{x:Static props:Resources.LABEL_DATE}" Target="{Binding ElementName=datePicker}" Margin="0,0,5,0" HorizontalAlignment="Left"/>
-                    <DatePicker Grid.Column="1" x:Name="datePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" Margin="0,0,5,0" Height="23" Width="150"/>
-                    <Button Command="self:CustomCommands.Previous" Grid.Column="2" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}" Margin="0,0,5,0">
+                    <DatePicker Grid.Column="1" x:Name="datePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" Margin="0,0,5,0" Height="23" Width="150" KeyboardNavigation.TabIndex="8"/>
+                    <Button Command="self:CustomCommands.Previous" Grid.Column="2" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_PREVIOUS}" Margin="0,0,5,0" KeyboardNavigation.TabIndex="9">
                         <Image Source="Images/16x16/arrow-left-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="self:CustomCommands.Next" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" Margin="0,0,5,0">
+                    <Button Command="self:CustomCommands.Next" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" Margin="0,0,5,0" KeyboardNavigation.TabIndex="10">
                         <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
                     <TextBlock Grid.Column="4" x:Name="textBlockTotal" Text="Total: 0 hours" VerticalAlignment="Center" Margin="0,0,5,0"/>
@@ -125,7 +125,7 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <ListView x:Name="listView" VirtualizingPanel.IsVirtualizing="False" MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView x:Name="listView" VirtualizingPanel.IsVirtualizing="False" MouseDoubleClick="ListView_MouseDoubleClick" KeyboardNavigation.TabIndex="11">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -133,7 +133,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="60">
+                        <GridViewColumn Width="70">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader x:Name="gridViewColumHeaderStartTime" Tag="StartTime" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_STARTTIME}"/>
                             </GridViewColumn.Header>
@@ -143,7 +143,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="60">
+                        <GridViewColumn Width="70">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="EndTime" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_ENDTIME}"/>
                             </GridViewColumn.Header>

@@ -223,7 +223,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End Time.
+        ///   Looks up a localized string similar to End.
         /// </summary>
         public static string COLUMN_ENDTIME {
             get {
@@ -241,7 +241,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start Time.
+        ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string COLUMN_STARTTIME {
             get {
@@ -349,7 +349,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to delete the selected work times?.
+        ///   Looks up a localized string similar to Do you want to delete the selected working times?.
         /// </summary>
         public static string QUESTION_DELETE_ITEMS {
             get {
@@ -380,7 +380,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work time recording started on {0} at {1}.  Current work time: {2} hours..
+        ///   Looks up a localized string similar to Working time recording started on {0} at {1} for {2} hours..
         /// </summary>
         public static string TEXT_RECORD_START_0_1_2 {
             get {
@@ -389,7 +389,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work time recording stopped..
+        ///   Looks up a localized string similar to Working time recording stopped..
         /// </summary>
         public static string TEXT_RECORD_STOP {
             get {
@@ -398,7 +398,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total work time on {0}: {1} hours..
+        ///   Looks up a localized string similar to Total working time on {0}: {1} hours..
         /// </summary>
         public static string TEXT_TOTAL_0_1 {
             get {
@@ -407,7 +407,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add work time.
+        ///   Looks up a localized string similar to Add working time.
         /// </summary>
         public static string TITLE_ADD {
             get {
@@ -425,7 +425,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit work time.
+        ///   Looks up a localized string similar to Edit working time.
         /// </summary>
         public static string TITLE_EDIT {
             get {
@@ -443,7 +443,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Work Time Tracker.
+        ///   Looks up a localized string similar to Working Time Recording.
         /// </summary>
         public static string TITLE_TIMETRACKER {
             get {
@@ -452,7 +452,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add work time.
+        ///   Looks up a localized string similar to Add working time.
         /// </summary>
         public static string TOOLTIP_ADD {
             get {
@@ -461,7 +461,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit work time.
+        ///   Looks up a localized string similar to Edit working time.
         /// </summary>
         public static string TOOLTIP_EDIT {
             get {
@@ -488,7 +488,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove work time.
+        ///   Looks up a localized string similar to Remove working time.
         /// </summary>
         public static string TOOLTIP_REMOVE {
             get {
@@ -497,7 +497,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start work time recording.
+        ///   Looks up a localized string similar to Start working time recording.
         /// </summary>
         public static string TOOLTIP_START {
             get {
@@ -506,7 +506,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop work time recording.
+        ///   Looks up a localized string similar to Stop working time recording.
         /// </summary>
         public static string TOOLTIP_STOP {
             get {

@@ -172,13 +172,13 @@
     <value>Duration</value>
   </data>
   <data name="COLUMN_ENDTIME" xml:space="preserve">
-    <value>End Time</value>
+    <value>End</value>
   </data>
   <data name="COLUMN_PROJECT" xml:space="preserve">
     <value>Project</value>
   </data>
   <data name="COLUMN_STARTTIME" xml:space="preserve">
-    <value>Start Time</value>
+    <value>Start</value>
   </data>
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>An error occurred. {0}</value>
@@ -214,7 +214,7 @@
     <value>_Help</value>
   </data>
   <data name="QUESTION_DELETE_ITEMS" xml:space="preserve">
-    <value>Do you want to delete the selected work times?</value>
+    <value>Do you want to delete the selected working times?</value>
   </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
     <value>Copyright 2018 Niels Stockfleth
@@ -227,34 +227,34 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Default project</value>
   </data>
   <data name="TEXT_RECORD_START_0_1_2" xml:space="preserve">
-    <value>Work time recording started on {0} at {1}.  Current work time: {2} hours.</value>
+    <value>Working time recording started on {0} at {1} for {2} hours.</value>
   </data>
   <data name="TEXT_RECORD_STOP" xml:space="preserve">
-    <value>Work time recording stopped.</value>
+    <value>Working time recording stopped.</value>
   </data>
   <data name="TEXT_TOTAL_0_1" xml:space="preserve">
-    <value>Total work time on {0}: {1} hours.</value>
+    <value>Total working time on {0}: {1} hours.</value>
   </data>
   <data name="TITLE_ADD" xml:space="preserve">
-    <value>Add work time</value>
+    <value>Add working time</value>
   </data>
   <data name="TITLE_CONFIGURE_PROJECT" xml:space="preserve">
     <value>Configure projects</value>
   </data>
   <data name="TITLE_EDIT" xml:space="preserve">
-    <value>Edit work time</value>
+    <value>Edit working time</value>
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
     <value>Edit project</value>
   </data>
   <data name="TITLE_TIMETRACKER" xml:space="preserve">
-    <value>Work Time Tracker</value>
+    <value>Working Time Recording</value>
   </data>
   <data name="TOOLTIP_ADD" xml:space="preserve">
-    <value>Add work time</value>
+    <value>Add working time</value>
   </data>
   <data name="TOOLTIP_EDIT" xml:space="preserve">
-    <value>Edit work time</value>
+    <value>Edit working time</value>
   </data>
   <data name="TOOLTIP_NEXT" xml:space="preserve">
     <value>Select next day</value>
@@ -263,12 +263,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Select previous day</value>
   </data>
   <data name="TOOLTIP_REMOVE" xml:space="preserve">
-    <value>Remove work time</value>
+    <value>Remove working time</value>
   </data>
   <data name="TOOLTIP_START" xml:space="preserve">
-    <value>Start work time recording</value>
+    <value>Start working time recording</value>
   </data>
   <data name="TOOLTIP_STOP" xml:space="preserve">
-    <value>Stop work time recording</value>
+    <value>Stop working time recording</value>
   </data>
 </root>

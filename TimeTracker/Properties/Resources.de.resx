@@ -227,7 +227,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Standardprojekt</value>
   </data>
   <data name="TEXT_RECORD_START_0_1_2" xml:space="preserve">
-    <value>Arbeitszeitaufzeichnung wurde gestartet am {0} um {1}. Bisherige Arbeitszeit: {2} Stunden.</value>
+    <value>Arbeitszeitaufzeichnung wurde gestartet am {0} um {1} für {2} Stunden.</value>
   </data>
   <data name="TEXT_RECORD_STOP" xml:space="preserve">
     <value>Arbeitszeitaufzeichnung wurde beendet.</value>

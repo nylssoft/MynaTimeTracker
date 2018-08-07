@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%MyDocuments%\MynaTimeTracker\TimeTracker.bdb</Value>
     </Setting>
     <Setting Name="Language" Type="System.String" Scope="User">
-      <Value Profile="(Default)">de</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastUsedProject" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
