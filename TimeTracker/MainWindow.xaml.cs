@@ -319,34 +319,42 @@ namespace TimeTracker
 
         private void Stop()
         {
-            if (currentStartTime.HasValue)
+            var project = comboBoxProject.SelectedItem as Project;
+            if (!currentStartTime.HasValue || project == null)
             {
-                var project = comboBoxProject.SelectedItem as Project;
-                if (project != null)
-                {
-                    var wt = new WorkTime
-                    {
-                        StartTime = currentStartTime.Value,
-                        EndTime = DateTime.Now,
-                        Project = project,
-                        Description = string.Empty
-                    };
-                    database.InsertWorkTime(wt);
-                    if (!datePicker.SelectedDate.HasValue ||
-                        (wt.EndTime - datePicker.SelectedDate.Value).TotalDays >= 1.0)
-                    {
-                        datePicker.SelectedDate = wt.EndTime;
-                    }
-                    else
-                    {
-                        workTimes.Add(wt);
-                        UpdateTotalHours();
-                    }
-                    SelectWorkTime(wt);
-                }
-                currentStartTime = null;
-                textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
+                return;
             }
+            var wt = new WorkTime
+            {
+                StartTime = currentStartTime.Value,
+                EndTime = DateTime.Now,
+                Project = project,
+                Description = string.Empty
+            };
+            database.InsertWorkTime(wt);
+            bool changedate = !datePicker.SelectedDate.HasValue;
+            if (!changedate)
+            {
+                var seldate = datePicker.SelectedDate.Value;
+                if (wt.EndTime.Year != seldate.Year ||
+                    wt.EndTime.Month != seldate.Month ||
+                    wt.EndTime.Day != seldate.Day)
+                {
+                    changedate = true;
+                }
+            }
+            if (changedate)
+            {
+                datePicker.SelectedDate = wt.EndTime;
+            }
+            else
+            {
+                workTimes.Add(wt);
+                UpdateTotalHours();
+            }
+            SelectWorkTime(wt);
+            currentStartTime = null;
+            textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
         }
 
         private void InsertWorkTime()
