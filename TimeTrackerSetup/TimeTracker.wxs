@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?define VersionNumber="!(bind.FileVersion.TimeTrackerFile)" ?>
+  
+  <Product Id="448F8705-D401-4292-9A77-4B2BC7A32BDD"
+           Name="Myna Time Tracker"
+           Language="1033"
+           Version="$(var.VersionNumber)"
+           Manufacturer="Niels Stockfleth"
+           UpgradeCode="291B6790-4019-4E76-92FE-0E961C24C060">
+    <Package InstallerVersion="400" Compressed="yes"/>
+
+    <Media Id="1" Cabinet="MynaTimeTracker.cab" EmbedCab="yes" />
+    
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="ApplicationFolder" Name="Myna Time Tracker">
+          <Directory Id="LanguageFolder.DE" Name="de" />
+        </Directory>          
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Myna Time Tracker"/>
+      </Directory>
+    </Directory>
+    
+    <DirectoryRef Id="ApplicationFolder">
+      <Component Id="TimeTracker" Guid="AD0EFA90-1AA4-4287-A583-C23779C4D694">
+        <File Id="TimeTrackerFile" Source="$(var.TimeTracker.TargetDir)\MynaTimeTracker.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="TimeTrackerConfig" Guid="317A2258-3B11-461B-A9CC-2472773E8DAB">
+        <File Id="TimeTrackerConfigFile" Source="$(var.TimeTracker.TargetDir)\MynaTimeTracker.exe.config" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="SQLiteInterop" Guid="7EEB88CA-9F10-424E-8185-619EC7EB8562">
+        <File Id="SQLiteInteropFile" Source="$(var.TimeTracker.ProjectDir)\lib\SQLite.Interop.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="SQLite" Guid="5885E749-885A-43F4-8A81-21595631F13D">
+        <File Id="SQLiteFile" Source="$(var.TimeTracker.ProjectDir)\lib\System.Data.SQLite.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="SQLiteConfig" Guid="B0196B8E-8FBD-4532-BD12-DCF0F88D58E1">
+        <File Id="SQLiteConfigFile" Source="$(var.TimeTracker.ProjectDir)\lib\System.Data.SQLite.dll.config" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="LanguageFolder.DE">
+      <Component Id="ResourcesTimeTracker.DE" Guid="27BF10D1-0A4A-451E-8F54-02EF078027B9">
+        <File Id="ResourcesTimeTrackerFile.DE" Source="$(var.TimeTracker.TargetDir)\de\MynaTimeTracker.resources.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>      
+    </DirectoryRef>
+    
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="TimeTrackerShortcut" Guid="3E4055E9-E4E9-44FE-8EE7-D4EEE434BA4D">
+        <Shortcut Id="TimeTrackerStartMenuShortcut" 
+                  Name="Myna Time Tracker" 
+                  Description="A time tracker for work times"
+                  Target="[#TimeTrackerFile]"
+                  WorkingDirectory="ApplicationFolder"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\MynaTimeTracker" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <Feature Id="MainApplication" Title="Myna Time Tracker" Level="1">
+      <ComponentRef Id="TimeTracker" />
+      <ComponentRef Id="TimeTrackerConfig" />
+      <ComponentRef Id="SQLiteInterop" />
+      <ComponentRef Id="SQLite" />
+      <ComponentRef Id="SQLiteConfig" />
+      <ComponentRef Id="ResourcesTimeTracker.DE" />
+      <ComponentRef Id="TimeTrackerShortcut" />
+    </Feature>
+
+    <Icon Id="Icon.exe" SourceFile="$(var.TimeTracker.ProjectDir)\logo.ico"/>
+
+    <Property Id="ARPPRODUCTICON" Value="Icon.exe" />
+    
+    <WixVariable Id="WixUIBannerBmp" Value="topbanner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="welcome.bmp" />
+    
+    <UI Id="WixUI_Minimal">
+            
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="Minimal" />
+
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+
+      <!-- This is the welcome dialog you specified-->
+      <DialogRef Id="WelcomeDlg" /> 
+
+      <!-- Hook the new welcome dialog to the next one in the stack-->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PrepareDlg">1</Publish> 
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+
+      <Property Id="ARPNOMODIFY" Value="1" />
+    </UI>
+
+    <UIRef Id="WixUI_Common" />    
+
+  </Product>
+
+</Wix>
