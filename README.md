@@ -1,6 +1,6 @@
 # MynaTimeTracker
 
-An application to record and manage working times for Windows using WPF.
+An application that allows to record and manage working times for Windows using WPF.
 
 Licenses:
 
