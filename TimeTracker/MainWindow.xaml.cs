@@ -35,14 +35,17 @@ namespace TimeTracker
         private ObservableCollection<Project> projects = new ObservableCollection<Project>();
         private Database database = new Database();
         private DateTime? currentStartTime;
+        private DateTime? selectedDate;
         private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Ascending);
-
+        
         public MainWindow()
         {
             InitializeComponent();
             listView.ItemsSource = workTimes;
             comboBoxProject.ItemsSource = projects;
         }
+
+        #region Callback methods
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -57,81 +60,9 @@ namespace TimeTracker
             }
         }
 
-        private void HandleError(Exception ex)
-        {
-            MessageBox.Show(
-                this,
-                string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message),
-                Title,
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
-
-        private void Init()
-        {
-            init = true;
-            Title = Properties.Resources.TITLE_TIMETRACKER;
-            this.RestorePosition(
-                Properties.Settings.Default.Left,
-                Properties.Settings.Default.Top,
-                Properties.Settings.Default.Width,
-                Properties.Settings.Default.Height);
-            string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
-            var di = new FileInfo(filename).Directory;
-            if (!di.Exists)
-            {
-                Directory.CreateDirectory(di.FullName);
-            }
-            database.Open(filename);
-            currentStartTime = DateTime.Now;
-            datePicker.SelectedDate = currentStartTime;
-            InitWorkTimes(datePicker.SelectedDate);
-            var dbprojects = database.SelectAllProjects();
-            if (dbprojects.Count == 0)
-            {
-                dbprojects.Add(database.InsertProject(Properties.Resources.TEXT_DEFAULT_PROJECT));                
-            }
-            Project lastUsedProject = null;
-            foreach (var p in dbprojects)
-            {
-                projects.Add(p);
-                if (string.Equals(p.Name, Properties.Settings.Default.LastUsedProject))
-                {
-                    lastUsedProject = p;
-                }
-            }
-            comboBoxProject.SelectedIndex = 0;
-            if (lastUsedProject != null)
-            {
-                comboBoxProject.SelectedItem = lastUsedProject;
-            }
-            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
-            var timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Tick += Timer_Tick;
-            timer.Start();
-            Update();
-            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            viewlist.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
-            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
-            var viewlistprojects = (CollectionView)CollectionViewSource.GetDefaultView(comboBoxProject.ItemsSource);
-            viewlistprojects.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            init = false;
-            sortDecorator.Click(gridViewColumHeaderStartTime);
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Update();
-        }
-
-        private void Update()
-        {
-            if (currentStartTime.HasValue)
-            {
-                var ts = DateTime.Now - currentStartTime.Value;
-                textBlockStatus.Text = String.Format(Properties.Resources.TEXT_RECORD_START_0_1_2, currentStartTime.Value.ToShortDateString(), currentStartTime.Value.ToShortTimeString(), DurationValueConverter.Convert(ts));
-            }
+            UpdateStatus();
         }
 
         private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
@@ -174,7 +105,18 @@ namespace TimeTracker
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (init) return;
-            InitWorkTimes(datePicker.SelectedDate);
+            try
+            {
+                if (selectedDate != datePicker.SelectedDate)
+                {
+                    InitWorkTimes(datePicker.SelectedDate);
+                    selectedDate = datePicker.SelectedDate;
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
 
         private void InitWorkTimes(DateTime? dt)
@@ -190,16 +132,6 @@ namespace TimeTracker
             UpdateTotalHours();
         }
 
-        private void UpdateTotalHours()
-        {
-            double dur = 0.0;
-            foreach (var wt in workTimes)
-            {
-                dur += (wt.EndTime - wt.StartTime).TotalHours;
-            }
-            textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToShortDateString(), DurationValueConverter.Convert(dur));
-        }
-
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var mousePosition = e.GetPosition(listView);
@@ -212,11 +144,10 @@ namespace TimeTracker
 
         private void Command_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            RoutedUICommand r = e.Command as RoutedUICommand;
-            if (r == null) return;
+            if (!(e.Command is RoutedUICommand r)) return;
             int selcount = (listView != null ? listView.SelectedItems.Count : 0);
             switch (r.Name)
-            {                
+            {
                 case "Next":
                 case "Previous":
                     e.CanExecute = datePicker.SelectedDate.HasValue;
@@ -246,8 +177,7 @@ namespace TimeTracker
 
         private void Command_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            RoutedUICommand r = e.Command as RoutedUICommand;
-            if (r == null) return;
+            if (!(e.Command is RoutedUICommand r)) return;
             switch (r.Name)
             {
                 case "Exit":
@@ -285,13 +215,101 @@ namespace TimeTracker
             }
         }
 
+        private void ListView_ColumnHeaderClick(object sender, RoutedEventArgs e)
+        {
+            var column = (sender as GridViewColumnHeader);
+            if (column == null || column.Tag == null) return;
+            sortDecorator.Click(column);
+            string sortBy = column.Tag.ToString();
+            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            viewlist.SortDescriptions.Clear();
+            viewlist.SortDescriptions.Add(new SortDescription(sortBy, sortDecorator.Direction));
+            viewlist.SortDescriptions.Add(new SortDescription("Id", sortDecorator.Direction));
+        }
+        #endregion
+
+        #region Private methods
+
+        private void Init()
+        {
+            init = true;
+            Title = Properties.Resources.TITLE_TIMETRACKER;
+            this.RestorePosition(
+                Properties.Settings.Default.Left,
+                Properties.Settings.Default.Top,
+                Properties.Settings.Default.Width,
+                Properties.Settings.Default.Height);
+            string filename = Properties.Settings.Default.DatabaseFile.ReplaceSpecialFolder();
+            var di = new FileInfo(filename).Directory;
+            if (!di.Exists)
+            {
+                Directory.CreateDirectory(di.FullName);
+            }
+            database.Open(filename);
+            currentStartTime = DateTime.Now;
+            datePicker.SelectedDate = currentStartTime;
+            InitWorkTimes(datePicker.SelectedDate);
+            var dbprojects = database.SelectAllProjects();
+            if (dbprojects.Count == 0)
+            {
+                dbprojects.Add(database.InsertProject(Properties.Resources.TEXT_DEFAULT_PROJECT));
+            }
+            Project lastUsedProject = null;
+            foreach (var p in dbprojects)
+            {
+                projects.Add(p);
+                if (string.Equals(p.Name, Properties.Settings.Default.LastUsedProject))
+                {
+                    lastUsedProject = p;
+                }
+            }
+            comboBoxProject.SelectedIndex = 0;
+            if (lastUsedProject != null)
+            {
+                comboBoxProject.SelectedItem = lastUsedProject;
+            }
+            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            var timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+            UpdateStatus();
+            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            viewlist.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            var viewlistprojects = (CollectionView)CollectionViewSource.GetDefaultView(comboBoxProject.ItemsSource);
+            viewlistprojects.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            init = false;
+            sortDecorator.Click(gridViewColumHeaderStartTime);
+        }
+
+        private void UpdateStatus()
+        {
+            if (currentStartTime.HasValue)
+            {
+                var ts = DateTime.Now - currentStartTime.Value;
+                textBlockStatus.Text = String.Format(Properties.Resources.TEXT_RECORD_START_0_1_2, currentStartTime.Value.ToShortDateString(), currentStartTime.Value.ToShortTimeString(), DurationValueConverter.Convert(ts));
+            }
+        }
+
+        private void UpdateTotalHours()
+        {
+            double dur = CalculateTotalHours();
+            textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToShortDateString(), DurationValueConverter.Convert(dur));
+        }
+
         private void AddDays(int days)
         {
-            if (datePicker.SelectedDate.HasValue)
+            try
             {
-                var dt = datePicker.SelectedDate.Value;
-                dt = dt.AddDays(days);
-                datePicker.SelectedDate = dt;
+                if (datePicker.SelectedDate.HasValue)
+                {
+                    datePicker.SelectedDate = datePicker.SelectedDate.Value.AddDays(days);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
             }
         }
 
@@ -307,56 +325,70 @@ namespace TimeTracker
 
         private void Start()
         {
-            if (!currentStartTime.HasValue)
+            try
             {
-                currentStartTime = DateTime.Now;
-                if (!datePicker.SelectedDate.HasValue ||
-                    (currentStartTime.Value - datePicker.SelectedDate.Value).TotalDays >= 1.0)
+                if (!currentStartTime.HasValue)
                 {
-                    datePicker.SelectedDate = currentStartTime.Value;
+                    currentStartTime = DateTime.Now;
+                    if (!datePicker.SelectedDate.HasValue ||
+                        (currentStartTime.Value - datePicker.SelectedDate.Value).TotalDays >= 1.0)
+                    {
+                        datePicker.SelectedDate = currentStartTime.Value;
+                    }
+                    UpdateStatus();
                 }
-                Update();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
             }
         }
 
         private void Stop()
         {
-            var project = comboBoxProject.SelectedItem as Project;
-            if (!currentStartTime.HasValue || project == null)
+            try
             {
-                return;
-            }
-            var wt = new WorkTime
-            {
-                StartTime = currentStartTime.Value,
-                EndTime = DateTime.Now,
-                Project = project,
-                Description = string.Empty
-            };
-            database.InsertWorkTime(wt);
-            bool changedate = !datePicker.SelectedDate.HasValue;
-            if (!changedate)
-            {
-                var seldate = datePicker.SelectedDate.Value;
-                if (wt.EndTime.Year != seldate.Year ||
-                    wt.EndTime.Month != seldate.Month ||
-                    wt.EndTime.Day != seldate.Day)
+                var project = comboBoxProject.SelectedItem as Project;
+                if (!currentStartTime.HasValue || project == null)
                 {
-                    changedate = true;
+                    return;
                 }
+                var wt = new WorkTime
+                {
+                    StartTime = currentStartTime.Value,
+                    EndTime = DateTime.Now,
+                    Project = project,
+                    Description = string.Empty
+                };
+                database.InsertWorkTime(wt);
+                bool changedate = !datePicker.SelectedDate.HasValue;
+                if (!changedate)
+                {
+                    var seldate = datePicker.SelectedDate.Value;
+                    if (wt.EndTime.Year != seldate.Year ||
+                        wt.EndTime.Month != seldate.Month ||
+                        wt.EndTime.Day != seldate.Day)
+                    {
+                        changedate = true;
+                    }
+                }
+                if (changedate)
+                {
+                    datePicker.SelectedDate = wt.EndTime;
+                }
+                else
+                {
+                    workTimes.Add(wt);
+                    UpdateTotalHours();
+                }
+                SelectWorkTime(wt);
+                currentStartTime = null;
+                textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
             }
-            if (changedate)
+            catch (Exception ex)
             {
-                datePicker.SelectedDate = wt.EndTime;
+                HandleError(ex);
             }
-            else
-            {
-                workTimes.Add(wt);
-                UpdateTotalHours();
-            }
-            SelectWorkTime(wt);
-            currentStartTime = null;
-            textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
         }
 
         private void InsertWorkTime()
@@ -411,6 +443,8 @@ namespace TimeTracker
                 if (wnd.ShowDialog() == true)
                 {
                     database.UpdateWorkTime(wt);
+                    CollectionViewSource.GetDefaultView(listView.ItemsSource).Refresh();
+                    UpdateTotalHours();
                     SelectWorkTime(wt);
                 }
             }
@@ -441,13 +475,13 @@ namespace TimeTracker
                         database.DeleteWorkTime(d);
                         workTimes.Remove(d);
                     }
+                    UpdateTotalHours();
                     idx = Math.Min(idx, listView.Items.Count - 1);
                     if (idx >= 0)
                     {
                         listView.SelectedIndex = idx;
                         listView.FocusItem(idx);
                     }
-                    UpdateTotalHours();
                 }
             }
             catch (Exception ex)
@@ -469,54 +503,86 @@ namespace TimeTracker
             }
         }
 
-        private void ListView_ColumnHeaderClick(object sender, RoutedEventArgs e)
-        {
-            var column = (sender as GridViewColumnHeader);
-            if (column == null || column.Tag == null) return;
-            sortDecorator.Click(column);
-            string sortBy = column.Tag.ToString();
-            var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            viewlist.SortDescriptions.Clear();
-            viewlist.SortDescriptions.Add(new SortDescription(sortBy, sortDecorator.Direction));
-            viewlist.SortDescriptions.Add(new SortDescription("Id", sortDecorator.Direction));
-        }
-
         private void ConfigureProjects()
         {
             try
             {
                 var dlg = new ConfigureProjectWindow(this, Properties.Resources.TITLE_CONFIGURE_PROJECT, database);
                 dlg.ShowDialog();
-                if (dlg.Changed)
+                if (!dlg.Changed) return;
+                Project selprj = comboBoxProject.SelectedItem as Project;
+                projects.Clear();
+                foreach (var p in database.SelectAllProjects())
                 {
-                    Project selprj = comboBoxProject.SelectedItem as Project;
-                    projects.Clear();
-                    foreach (var p in database.SelectAllProjects())
+                    projects.Add(p);
+                }
+                if (projects.Count > 0)
+                {
+                    comboBoxProject.SelectedIndex = 0;
+                    if (selprj != null)
                     {
-                        projects.Add(p);
-                    }
-                    if (projects.Count > 0)
-                    {
-                        comboBoxProject.SelectedIndex = 0;
-                        if (selprj != null)
+                        foreach (var p in projects)
                         {
-                            foreach (var p in projects)
+                            if (p.Id == selprj.Id)
                             {
-                                if (p.Id == selprj.Id)
-                                {
-                                    comboBoxProject.SelectedItem = p;
-                                }
+                                comboBoxProject.SelectedItem = p;
                             }
                         }
                     }
-                    InitWorkTimes(datePicker.SelectedDate);
                 }
+                InitWorkTimes(datePicker.SelectedDate);
             }
             catch (Exception ex)
             {
                 HandleError(ex);
             }
         }
+
+        private void HandleError(Exception ex)
+        {
+            MessageBox.Show(
+                this,
+                string.Format(Properties.Resources.ERROR_OCCURRED_0, ex.Message),
+                Title,
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+
+        private double CalculateTotalHours()
+        {
+            var intervals = new List<WorkTime>();
+            foreach (var wt in workTimes)
+            {
+                intervals.Add(new WorkTime { StartTime = wt.StartTime, EndTime = wt.EndTime });
+            }
+            intervals.Sort((a, b) => { return a.StartTime.CompareTo(b.StartTime); });
+            for (int idx = 0; idx < intervals.Count - 1;)
+            {
+                var et1 = intervals[idx].EndTime;
+                var st2 = intervals[idx+1].StartTime;
+                var et2 = intervals[idx+1].EndTime;
+                if (st2 <= et1) // overlap interval i2 with i1
+                {
+                    if (et2 >= et1) // is interval i2 not included in i1
+                    {
+                        intervals[idx].EndTime = et2; // extend interval i1
+                    }
+                    intervals.RemoveAt(idx+1); // remove interval i2
+                }
+                else
+                {
+                    idx++; // empty intersection with interval i1 and i2, continue with next interval
+                }
+            }
+            double t = 0.0;
+            foreach (var i in intervals)
+            {
+                t += (i.EndTime - i.StartTime).TotalHours;
+            }
+            return t;
+        }
+
+        #endregion
 
     }
 }
