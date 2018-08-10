@@ -327,16 +327,14 @@ namespace TimeTracker
         {
             try
             {
-                if (!currentStartTime.HasValue)
+                if (currentStartTime.HasValue) return;
+                currentStartTime = DateTime.Now;
+                if (!datePicker.SelectedDate.HasValue ||
+                    !currentStartTime.Value.IsSameDay(datePicker.SelectedDate.Value))
                 {
-                    currentStartTime = DateTime.Now;
-                    if (!datePicker.SelectedDate.HasValue ||
-                        (currentStartTime.Value - datePicker.SelectedDate.Value).TotalDays >= 1.0)
-                    {
-                        datePicker.SelectedDate = currentStartTime.Value;
-                    }
-                    UpdateStatus();
+                    datePicker.SelectedDate = currentStartTime.Value;
                 }
+                UpdateStatus();
             }
             catch (Exception ex)
             {
@@ -360,19 +358,10 @@ namespace TimeTracker
                     Project = project,
                     Description = string.Empty
                 };
+                // @TODO: add 2 work times if start time and end time is on a different day?
                 database.InsertWorkTime(wt);
-                bool changedate = !datePicker.SelectedDate.HasValue;
-                if (!changedate)
-                {
-                    var seldate = datePicker.SelectedDate.Value;
-                    if (wt.EndTime.Year != seldate.Year ||
-                        wt.EndTime.Month != seldate.Month ||
-                        wt.EndTime.Day != seldate.Day)
-                    {
-                        changedate = true;
-                    }
-                }
-                if (changedate)
+                if (!datePicker.SelectedDate.HasValue ||
+                    !wt.EndTime.IsSameDay(datePicker.SelectedDate.Value))
                 {
                     datePicker.SelectedDate = wt.EndTime;
                 }
