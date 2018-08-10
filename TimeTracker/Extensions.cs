@@ -125,7 +125,7 @@ namespace TimeTracker
 
         public static bool IsSameDay(this DateTime dt1, DateTime dt2)
         {
-            return dt1.Year != dt2.Year || dt1.Month != dt2.Month || dt1.Day != dt2.Day;
+            return dt1.Year == dt2.Year && dt1.Month == dt2.Month && dt1.Day == dt2.Day;
         }
 
         #endregion
