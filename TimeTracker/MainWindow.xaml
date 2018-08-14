@@ -40,6 +40,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Menu Grid.Row="0" KeyboardNavigation.TabIndex="1">
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_FILE}">
@@ -114,7 +115,8 @@
                         </Button>
                     </ToolBar>
                 </ToolBarTray>
-                <Grid Grid.Row="2">
+                <TextBlock Grid.Row="2" Margin="5" FontStyle="Italic" FontWeight="Bold" FontSize="14" x:Name="textBlockTotal" Text="Total: 0 hours" VerticalAlignment="Center" />
+                <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -130,7 +132,7 @@
                     <Button Command="self:CustomCommands.Next" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" Margin="0,0,5,0" KeyboardNavigation.TabIndex="10">
                         <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <TextBlock Grid.Column="4" x:Name="textBlockTotal" Text="Total: 0 hours" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBlock Grid.Column="4" x:Name="textBlockOverTime" Text="Over Time: 0 hours" VerticalAlignment="Center" Margin="0,0,5,0"/>
                 </Grid>
             </Grid>
             <Grid DockPanel.Dock="Bottom">

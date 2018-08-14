@@ -67,11 +67,13 @@ namespace TimeTracker
 
         private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
         {
-            if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLock)
+            if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLock ||
+                e.Reason == Microsoft.Win32.SessionSwitchReason.RemoteDisconnect)
             {
                 Stop();
             }
-            else if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock)
+            else if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock ||
+                e.Reason == Microsoft.Win32.SessionSwitchReason.RemoteConnect)
             {
                 Start();
             }
@@ -268,7 +270,7 @@ namespace TimeTracker
             {
                 comboBoxProject.SelectedItem = lastUsedProject;
             }
-            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;            
             var timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
@@ -295,7 +297,7 @@ namespace TimeTracker
         private void UpdateTotalHours()
         {
             double dur = CalculateTotalHours();
-            textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToShortDateString(), DurationValueConverter.Convert(dur));
+            textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToLongDateString(), DurationValueConverter.Convert(dur));
         }
 
         private void AddDays(int days)
@@ -351,26 +353,33 @@ namespace TimeTracker
                 {
                     return;
                 }
-                var wt = new WorkTime
+                // @TODO: add only if totalminutes > 1.0,
+                var ts = DateTime.Now - currentStartTime.Value;
+                // RemoveDisconnect and RemoteConnect events are fired twice
+                // store working times only if longer than 1 minute
+                if (ts.TotalMinutes >= 1.0)
                 {
-                    StartTime = currentStartTime.Value,
-                    EndTime = DateTime.Now,
-                    Project = project,
-                    Description = string.Empty
-                };
-                // @TODO: add 2 work times if start time and end time is on a different day?
-                database.InsertWorkTime(wt);
-                if (!datePicker.SelectedDate.HasValue ||
-                    !wt.EndTime.IsSameDay(datePicker.SelectedDate.Value))
-                {
-                    datePicker.SelectedDate = wt.EndTime;
+                    var wt = new WorkTime
+                    {
+                        StartTime = currentStartTime.Value,
+                        EndTime = DateTime.Now,
+                        Project = project,
+                        Description = string.Empty
+                    };
+                    // @TODO: add 2 work times if start time and end time is on a different day?
+                    database.InsertWorkTime(wt);
+                    if (!datePicker.SelectedDate.HasValue ||
+                        !wt.EndTime.IsSameDay(datePicker.SelectedDate.Value))
+                    {
+                        datePicker.SelectedDate = wt.EndTime;
+                    }
+                    else
+                    {
+                        workTimes.Add(wt);
+                        UpdateTotalHours();
+                    }
+                    SelectWorkTime(wt);
                 }
-                else
-                {
-                    workTimes.Add(wt);
-                    UpdateTotalHours();
-                }
-                SelectWorkTime(wt);
                 currentStartTime = null;
                 textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
             }
