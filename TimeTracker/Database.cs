@@ -65,7 +65,87 @@ namespace TimeTracker
                 cmd.CommandText =
                     "CREATE INDEX IF NOT EXISTS worktime_index2 ON worktime (endtime);";
                 cmd.ExecuteNonQuery();
+                cmd.CommandText =
+                    "CREATE TABLE IF NOT EXISTS worktimeperday " +
+                    "(day INTEGER NOT NULL," +
+                    " worked REAL NOT NULL," + 
+                    " required REAL NOT NULL," +
+                    " PRIMARY KEY(day));";
+                cmd.ExecuteNonQuery();
             }
+        }
+
+        public void UpdateWorkTimePerDay(DateTime dt, double hours)
+        {
+            dt = dt.GetDayDateTime();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                // SQLite 3.24
+                cmd.CommandText =
+                    "INSERT INTO worktimeperday(day,hours) VALUES(@p1,@p2)" +
+                    " ON CONFLICT(day) DO UPDATE SET hours=excluded.hours";
+                /* previous versions
+                bool exists = false;
+                cmd.CommandText = "SELECT 1 FROM worktimeperday WHERE day=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", dt.GetUnixTimeSeconds()));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        exists = true;
+                    }
+                }
+                cmd.Parameters.Clear();
+                if (!exists)
+                {
+                    cmd.CommandText = "INSERT INTO worktimeperday(day,hours) VALUES(@p1,@p2)";
+                }
+                else
+                {
+                    cmd.CommandText = "UPDATE worktimeperday SET hours=@p2 WHERE day=@p1";
+                }
+                */
+                cmd.Parameters.Add(new SQLiteParameter("@p1", dt.GetUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", hours));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public double GetTotalHours(DateTime dtfrom, DateTime dtto)
+        {
+            dtfrom = dtfrom.GetDayDateTime();
+            dtto = dtto.GetDayDateTime();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText =
+                    "SELECT SUM(hours) FROM worktimeperday WHERE day>=@p1 AND day<=@p2";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", dtfrom.GetUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", dtto.GetUnixTimeSeconds()));
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return reader.GetDouble(0);
+                    }
+                }
+            }
+            return 0.0;
+        }
+
+        public DateTime? GetFirstStartTime()
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT MIN(StartTime) FROM worktime";
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        return DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(0)).DateTime.ToLocalTime();
+                    }
+                }
+            }
+            return null;
         }
 
         public void InsertWorkTime(WorkTime wt)

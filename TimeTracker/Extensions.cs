@@ -128,6 +128,15 @@ namespace TimeTracker
             return dt1.Year == dt2.Year && dt1.Month == dt2.Month && dt1.Day == dt2.Day;
         }
 
+        public static DateTime GetDayDateTime(this DateTime dt)
+        {
+            return new DateTime(dt.Year, dt.Month, dt.Day);
+        }
+
+        public static long GetUnixTimeSeconds(this DateTime dt)
+        {
+            return ((DateTimeOffset)dt.ToUniversalTime()).ToUnixTimeSeconds();
+        }
         #endregion
     }
 }

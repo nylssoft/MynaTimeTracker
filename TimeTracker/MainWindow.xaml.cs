@@ -297,6 +297,14 @@ namespace TimeTracker
         private void UpdateTotalHours()
         {
             double dur = CalculateTotalHours();
+
+            database.UpdateWorkTimePerDay(datePicker.SelectedDate.Value, dur);
+            var dtstart = database.GetFirstStartTime();
+            if (dtstart.HasValue)
+            {
+                textBlockOverTime.Text = Convert.ToString(database.GetTotalHours(dtstart.Value, DateTime.Now));
+            }
+
             textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToLongDateString(), DurationValueConverter.Convert(dur));
         }
 
