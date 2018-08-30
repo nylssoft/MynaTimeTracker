@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace TimeTracker
@@ -25,7 +26,7 @@ namespace TimeTracker
         private DateTime startTime;
         private DateTime endTime;
         private Project project;
-        private String description;
+        private string description;
 
         public long Id { get; set; }
 
@@ -65,7 +66,7 @@ namespace TimeTracker
             }
         }
 
-        public String Description
+        public string Description
         {
             get
             {
@@ -94,5 +95,40 @@ namespace TimeTracker
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static double CalculateTotalHours(ICollection<WorkTime> wts)
+        {
+            var intervals = new List<WorkTime>();
+            foreach (var wt in wts)
+            {
+                intervals.Add(new WorkTime { StartTime = wt.StartTime, EndTime = wt.EndTime });
+            }
+            intervals.Sort((a, b) => { return a.StartTime.CompareTo(b.StartTime); });
+            for (int idx = 0; idx < intervals.Count - 1;)
+            {
+                var et1 = intervals[idx].EndTime;
+                var st2 = intervals[idx + 1].StartTime;
+                var et2 = intervals[idx + 1].EndTime;
+                if (st2 <= et1) // overlap interval i2 with i1
+                {
+                    if (et2 >= et1) // is interval i2 not included in i1
+                    {
+                        intervals[idx].EndTime = et2; // extend interval i1
+                    }
+                    intervals.RemoveAt(idx + 1); // remove interval i2
+                }
+                else
+                {
+                    idx++; // empty intersection with interval i1 and i2, continue with next interval
+                }
+            }
+            double t = 0.0;
+            foreach (var i in intervals)
+            {
+                t += (i.EndTime - i.StartTime).TotalHours;
+            }
+            return t;
+        }
+
     }
 }

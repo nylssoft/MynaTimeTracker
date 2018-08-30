@@ -1,0 +1,86 @@
+﻿<Window x:Class="TimeTracker.OvertimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:self="clr-namespace:TimeTracker"
+        xmlns:props="clr-namespace:TimeTracker.Properties"
+        mc:Ignorable="d"
+        Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+        Height="300" Width="600" MinHeight="300" MinWidth="600" Icon="Images/logo.png">
+    <Window.Resources>
+        <self:DurationValueConverter x:Key="DurationValueConverter" />
+    </Window.Resources>
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" x:Name="textBlockInfo" Text="Überstunden von x bis y" VerticalAlignment="Center"/>
+        <Button Grid.Row="0" Grid.Column="1" Content="Arbeitsfreie Tage..." Height="23" Width="120" Click="ButtonNonWorkingDays_Click"/>
+        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="listView">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Year}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Jahr"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Week}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Woche"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding WeekDate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Zeitraum"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="120">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Geleistete Arbeitszeit" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding WorkTimePerWeek, Converter={StaticResource DurationValueConverter}}" TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="140">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Erforderliche Arbeitszeit" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RequiredWorkTimePerWeek, Converter={StaticResource DurationValueConverter}}" TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Überstunden" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Overtime, Converter={StaticResource DurationValueConverter}}" TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="textBlockResult" Text="Gesamte Überstunden:" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+        <Button Grid.Row="3" Grid.Column="1" IsCancel="True" IsDefault="True" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Click="ButtonCancel_Click" HorizontalAlignment="Right"/>
+    </Grid>
+</Window>

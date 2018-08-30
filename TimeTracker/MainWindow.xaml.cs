@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -164,6 +165,7 @@ namespace TimeTracker
                 case "About":
                 case "Exit":
                 case "ConfigureProjects":
+                case "CalculateOvertime":
                     e.CanExecute = true;
                     break;
                 case "Edit":
@@ -211,6 +213,9 @@ namespace TimeTracker
                     break;
                 case "ConfigureProjects":
                     ConfigureProjects();
+                    break;
+                case "CalculateOvertime":
+                    CalculateOvertime();
                     break;
                 default:
                     break;
@@ -298,14 +303,15 @@ namespace TimeTracker
         {
             double dur = CalculateTotalHours();
 
+            /*
             database.UpdateWorkTimePerDay(datePicker.SelectedDate.Value, dur);
             var dtstart = database.GetFirstStartTime();
             if (dtstart.HasValue)
             {
                 textBlockOverTime.Text = Convert.ToString(database.GetTotalHours(dtstart.Value, DateTime.Now));
             }
-
-            textBlockTotal.Text = String.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToLongDateString(), DurationValueConverter.Convert(dur));
+            */
+            textBlockTotal.Text = string.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToLongDateString(), DurationValueConverter.Convert(dur));
         }
 
         private void AddDays(int days)
@@ -390,6 +396,7 @@ namespace TimeTracker
                 }
                 currentStartTime = null;
                 textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
+                //textBlockOverTime.Text = DurationValueConverter.Convert(CalculateOverTime());
             }
             catch (Exception ex)
             {
@@ -544,6 +551,19 @@ namespace TimeTracker
             }
         }
 
+        private void CalculateOvertime()
+        {
+            try
+            {
+                var dlg = new OvertimeWindow(this, Properties.Resources.TITLE_OVERTIME, database);
+                dlg.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
         private void HandleError(Exception ex)
         {
             MessageBox.Show(
@@ -554,10 +574,94 @@ namespace TimeTracker
                 MessageBoxImage.Error);
         }
 
+        private ISet<DateTime> freeDays = new HashSet<DateTime>();
+
+        private double CalculateOverTime()
+        {
+            freeDays.Clear();
+            freeDays.Add(new DateTime(2018, 08, 15));
+            freeDays.Add(new DateTime(2018, 10, 03));
+            freeDays.Add(new DateTime(2018, 11, 01));
+            freeDays.Add(new DateTime(2018, 12, 25));
+            freeDays.Add(new DateTime(2018, 12, 26));
+
+            var first = database.GetFirstStartTime().Value.GetDayDateTime();
+            var last = DateTime.Now.GetDayDateTime();
+
+            var dfi = DateTimeFormatInfo.CurrentInfo;
+            var cal = dfi.Calendar;
+            /*
+            Console.WriteLine("{0:d}: Week {1} ({2})", date1,
+                              cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
+                                                dfi.FirstDayOfWeek),
+                              cal.ToString().Substring(cal.ToString().LastIndexOf(".") + 1));
+            */
+            IDictionary<int, double> hoursPerWeek = new Dictionary<int, double>();
+            IDictionary<int, double> requiredPerWeek = new Dictionary<int, double>();
+            var dt = first;
+            double overTime = 0.0;
+
+            var fd = dfi.FirstDayOfWeek;
+            var dt2018 = new DateTime(2019, 1, 1);
+            var firstDayOfWeek1 = dt2018.AddDays(dfi.FirstDayOfWeek - dt2018.DayOfWeek);
+
+            // table WorkingWeek (Year, Week, Worked, Required)
+            // 2018
+            // Woche, Datum, Geleistete Arbeitszeit, Erforderliche Arbeitszeit, Überstunden
+            // 32, 12.7 - 16.7, 32.6, 40, -7,4
+
+            var diff = DayOfWeek.Tuesday - dt2018.DayOfWeek;
+            var firstMonday = dt2018.AddDays(diff);
+
+            int firstWeek = cal.GetWeekOfYear(dt2018, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            int weeknumber = 34;
+            if ( firstWeek <= 1 )
+            {
+                weeknumber -= 1;
+            }
+            var firstdateofweek = firstMonday.AddDays(weeknumber * 7);
+
+            int w1 = cal.GetWeekOfYear(new DateTime(2019, 1, 1), dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            int w2 = cal.GetWeekOfYear(new DateTime(2019, 1, 2), dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            while (dt < last)
+            {
+                var hours = CalculateTotalHours(database.SelectWorkTimes(dt));
+                var weekofyear = cal.GetWeekOfYear(dt, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+                
+                double weekhours = 0.0;
+                if (!hoursPerWeek.TryGetValue(weekofyear, out weekhours))
+                {
+                    hoursPerWeek[weekofyear] = 0.0;
+                }
+                hoursPerWeek[weekofyear] += hours;
+                double weekrequired = 0.0;
+                if (!requiredPerWeek.TryGetValue(weekofyear, out weekrequired))
+                {
+                    requiredPerWeek[weekofyear] = 0.0;
+                }
+                if (!dt.IsWorkDay() || freeDays.Contains(dt))
+                {
+                    overTime += hours;
+                }
+                else
+                {
+                    overTime += hours - 8.0;
+                    requiredPerWeek[weekofyear] += 8.0;
+                }
+                dt = dt.AddDays(1.0);
+            }
+            return overTime;
+        }
+
         private double CalculateTotalHours()
         {
+            return CalculateTotalHours(workTimes);
+        }
+
+        private double CalculateTotalHours(ICollection<WorkTime> wts)
+        {
             var intervals = new List<WorkTime>();
-            foreach (var wt in workTimes)
+            foreach (var wt in wts)
             {
                 intervals.Add(new WorkTime { StartTime = wt.StartTime, EndTime = wt.EndTime });
             }

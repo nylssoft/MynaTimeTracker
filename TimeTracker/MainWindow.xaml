@@ -32,6 +32,7 @@
         <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.ConfigureProjects" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.CalculateOvertime" CanExecute="Command_CanExecute" Executed="Command_Executed" />
     </Window.CommandBindings>
     <Grid Margin="5,5,5,5">
         <DockPanel LastChildFill="True">
@@ -47,6 +48,12 @@
                         <MenuItem Command="self:CustomCommands.ConfigureProjects">
                             <MenuItem.Icon>
                                 <Image Source="Images/16x16/task-new.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Command="self:CustomCommands.CalculateOvertime">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/edit-history.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator/>
@@ -132,7 +139,6 @@
                     <Button Command="self:CustomCommands.Next" Grid.Column="3" Height="23" Width="23" ToolTip="{x:Static props:Resources.TOOLTIP_NEXT}" Margin="0,0,5,0" KeyboardNavigation.TabIndex="10">
                         <Image Source="Images/16x16/arrow-right-2.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                     </Button>
-                    <TextBlock Grid.Column="4" x:Name="textBlockOverTime" Text="Over Time: 0 hours" VerticalAlignment="Center" Margin="0,0,5,0"/>
                 </Grid>
             </Grid>
             <Grid DockPanel.Dock="Bottom">

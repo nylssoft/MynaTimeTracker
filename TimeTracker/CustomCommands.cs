@@ -85,5 +85,11 @@ namespace TimeTracker
             "ConfigureProjects",
             typeof(CustomCommands));
 
+        public static readonly RoutedUICommand CalculateOvertime =
+            new RoutedUICommand(
+            Properties.Resources.CMD_CALCULATE_OVERTIME,
+            "CalculateOvertime",
+            typeof(CustomCommands));
+
     }
 }

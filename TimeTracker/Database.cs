@@ -312,6 +312,5 @@ namespace TimeTracker
             }
             return ret;
         }
-
     }
 }

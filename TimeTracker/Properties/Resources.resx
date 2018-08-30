@@ -138,6 +138,9 @@
   <data name="CMD_ADD" xml:space="preserve">
     <value>_Add</value>
   </data>
+  <data name="CMD_CALCULATE_OVERTIME" xml:space="preserve">
+    <value>Calculate Overtime...</value>
+  </data>
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>_Close</value>
   </data>
@@ -246,6 +249,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
     <value>Edit Project</value>
+  </data>
+  <data name="TITLE_OVERTIME" xml:space="preserve">
+    <value>Calculate Overtime</value>
   </data>
   <data name="TITLE_TIMETRACKER" xml:space="preserve">
     <value>Working Time Recording</value>

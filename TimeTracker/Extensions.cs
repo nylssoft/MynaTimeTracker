@@ -137,6 +137,11 @@ namespace TimeTracker
         {
             return ((DateTimeOffset)dt.ToUniversalTime()).ToUnixTimeSeconds();
         }
+
+        public static bool IsWorkDay(this DateTime dt)
+        {
+            return dt.DayOfWeek != DayOfWeek.Saturday && dt.DayOfWeek != DayOfWeek.Sunday;
+        }
         #endregion
     }
 }

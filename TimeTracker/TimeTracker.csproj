@@ -63,10 +63,14 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConfigureNonWorkingDaysWindow.xaml.cs">
+      <DependentUpon>ConfigureNonWorkingDaysWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConfigureProjectWindow.xaml.cs">
       <DependentUpon>ConfigureProjectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomCommands.cs" />
+    <Compile Include="DateValueConverter.cs" />
     <Compile Include="DurationValueConverter.cs" />
     <Compile Include="EditProjectWindow.xaml.cs">
       <DependentUpon>EditProjectWindow.xaml</DependentUpon>
@@ -74,6 +78,10 @@
     <Compile Include="EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OvertimeWindow.xaml.cs">
+      <DependentUpon>OvertimeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NonWorkingDays.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
@@ -82,8 +90,13 @@
     </Compile>
     <Compile Include="SortDecorator.cs" />
     <Compile Include="TimeValueConverter.cs" />
+    <Compile Include="WeekOvertime.cs" />
     <Compile Include="WorkTime.cs" />
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfigureNonWorkingDaysWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,6 +126,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="OvertimeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -184,6 +201,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\16x16\task-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\edit-history.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

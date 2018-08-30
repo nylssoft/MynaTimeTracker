@@ -30,15 +30,20 @@ namespace TimeTracker
             {
                 return Convert(ts.Value);
             }
+            double? d = value as double?;
+            if (d != null)
+            {
+                return Convert(d.Value);
+            }
             return "";
         }
 
-        public static String Convert(TimeSpan ts)
+        public static string Convert(TimeSpan ts)
         {
             return Convert(ts.TotalHours);
         }
 
-        public static String Convert(double hours)
+        public static string Convert(double hours)
         {
             return $"{Math.Round(hours, 2).ToString("0.00")}";
         }
