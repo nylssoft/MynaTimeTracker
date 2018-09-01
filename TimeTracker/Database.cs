@@ -66,70 +66,13 @@ namespace TimeTracker
                     "CREATE INDEX IF NOT EXISTS worktime_index2 ON worktime (endtime);";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText =
-                    "CREATE TABLE IF NOT EXISTS worktimeperday " +
-                    "(day INTEGER NOT NULL," +
-                    " worked REAL NOT NULL," + 
-                    " required REAL NOT NULL," +
-                    " PRIMARY KEY(day));";
+                    "CREATE TABLE IF NOT EXISTS nonworkingdays " +
+                    "(startday INTEGER NOT NULL," +
+                    " endday INTEGER NOT NULL, " +
+                    " name TEXT NOT NULL, " +
+                    " hours INTEGER NOT NULL);";
                 cmd.ExecuteNonQuery();
             }
-        }
-
-        public void UpdateWorkTimePerDay(DateTime dt, double hours)
-        {
-            dt = dt.GetDayDateTime();
-            using (var cmd = new SQLiteCommand(con))
-            {
-                // SQLite 3.24
-                cmd.CommandText =
-                    "INSERT INTO worktimeperday(day,hours) VALUES(@p1,@p2)" +
-                    " ON CONFLICT(day) DO UPDATE SET hours=excluded.hours";
-                /* previous versions
-                bool exists = false;
-                cmd.CommandText = "SELECT 1 FROM worktimeperday WHERE day=@p1";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", dt.GetUnixTimeSeconds()));
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows && reader.Read())
-                    {
-                        exists = true;
-                    }
-                }
-                cmd.Parameters.Clear();
-                if (!exists)
-                {
-                    cmd.CommandText = "INSERT INTO worktimeperday(day,hours) VALUES(@p1,@p2)";
-                }
-                else
-                {
-                    cmd.CommandText = "UPDATE worktimeperday SET hours=@p2 WHERE day=@p1";
-                }
-                */
-                cmd.Parameters.Add(new SQLiteParameter("@p1", dt.GetUnixTimeSeconds()));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", hours));
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public double GetTotalHours(DateTime dtfrom, DateTime dtto)
-        {
-            dtfrom = dtfrom.GetDayDateTime();
-            dtto = dtto.GetDayDateTime();
-            using (var cmd = new SQLiteCommand(con))
-            {
-                cmd.CommandText =
-                    "SELECT SUM(hours) FROM worktimeperday WHERE day>=@p1 AND day<=@p2";
-                cmd.Parameters.Add(new SQLiteParameter("@p1", dtfrom.GetUnixTimeSeconds()));
-                cmd.Parameters.Add(new SQLiteParameter("@p2", dtto.GetUnixTimeSeconds()));
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows && reader.Read())
-                    {
-                        return reader.GetDouble(0);
-                    }
-                }
-            }
-            return 0.0;
         }
 
         public DateTime? GetFirstStartTime()
@@ -312,5 +255,72 @@ namespace TimeTracker
             }
             return ret;
         }
+
+        public List<NonWorkingDays> SelectAllNonWorkingDays()
+        {
+            var ret = new List<NonWorkingDays>();
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "SELECT rowid,startday,endday,name,hours FROM nonworkingdays ORDER BY startday";
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var nwd = new NonWorkingDays
+                            {
+                                Id = reader.GetInt64(0),
+                                StartDay = DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(1)).DateTime.ToLocalTime(),
+                                EndDay = DateTimeOffset.FromUnixTimeSeconds(reader.GetInt64(2)).DateTime.ToLocalTime(),
+                                Name = reader.GetString(3),
+                                Hours = reader.GetInt32(4)
+                            };
+                            ret.Add(nwd);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public void InsertNonWorkDays(NonWorkingDays nwd)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "INSERT INTO nonworkingdays (startday,endday,name,hours) VALUES(@p1,@p2,@p3,@p4)";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", ((DateTimeOffset)nwd.StartDay.ToUniversalTime()).ToUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", ((DateTimeOffset)nwd.EndDay.ToUniversalTime()).ToUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", nwd.Name));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", nwd.Hours));
+                cmd.ExecuteNonQuery();
+                nwd.Id = con.LastInsertRowId;
+            }
+        }
+
+        public void DeleteNonWorkingDays(NonWorkingDays nwd)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "DELETE FROM nonworkingdays WHERE rowid=@p1";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", nwd.Id));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateNonWorkingDays(NonWorkingDays nwd)
+        {
+            using (var cmd = new SQLiteCommand(con))
+            {
+                cmd.CommandText = "UPDATE nonworkingdays SET startday=@p1,endday=@p2,name=@p3,hours=@p4 WHERE rowid=@p5";
+                cmd.Parameters.Add(new SQLiteParameter("@p1", ((DateTimeOffset)nwd.StartDay.ToUniversalTime()).ToUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p2", ((DateTimeOffset)nwd.EndDay.ToUniversalTime()).ToUnixTimeSeconds()));
+                cmd.Parameters.Add(new SQLiteParameter("@p3", nwd.Name));
+                cmd.Parameters.Add(new SQLiteParameter("@p4", nwd.Hours));
+                cmd.Parameters.Add(new SQLiteParameter("@p5", nwd.Id));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }

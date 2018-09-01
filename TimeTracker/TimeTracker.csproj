@@ -72,6 +72,9 @@
     <Compile Include="CustomCommands.cs" />
     <Compile Include="DateValueConverter.cs" />
     <Compile Include="DurationValueConverter.cs" />
+    <Compile Include="EditNonWorkingDaysWindow.xaml.cs">
+      <DependentUpon>EditNonWorkingDaysWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditProjectWindow.xaml.cs">
       <DependentUpon>EditProjectWindow.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
     <Page Include="ConfigureProjectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditNonWorkingDaysWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="EditProjectWindow.xaml">
       <SubType>Designer</SubType>

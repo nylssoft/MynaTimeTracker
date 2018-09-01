@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:self="clr-namespace:TimeTracker"
         xmlns:props="clr-namespace:TimeTracker.Properties"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"        
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Height="300" Width="700" Icon="Images/logo.png">
+        Loaded="Window_Loaded"
+        Height="300" Width="770" MinHeight="300" MinWidth="300" Icon="Images/logo.png">
     <Window.Resources>
         <self:DateValueConverter x:Key="DateValueConverter" />
+        <self:DurationValueConverter x:Key="DurationValueConverter" />
     </Window.Resources>
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
@@ -26,15 +29,19 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Von:" Target="{Binding ElementName=datePickerFrom}"/>
-        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="datePickerFrom" Height="23" Width="150" SelectedDateChanged="DatePickerFrom_SelectedDateChanged"/>
-        <Label Grid.Row="0" Grid.Column="2" Content="Bis:" Target="{Binding ElementName=datePickerTo}"/>
-        <DatePicker Grid.Row="0" Grid.Column="3" x:Name="datePickerTo" Height="23" Width="150"/>
-        <Label Grid.Row="0" Grid.Column="4" Content="Name:" Target="{Binding ElementName=textBoxName}"/>
-        <TextBox MaxLength="100" x:Name="textBoxName" Grid.Row="0" Grid.Column="5" Height="23" />
-        <Button x:Name="buttonAdd" Grid.Row="0" Grid.Column="6" Content="{x:Static props:Resources.BUTTON_ADD}" Height="23" Width="80" HorizontalAlignment="Left" Margin="5,0,5,0" Click="ButtonAdd_Click"/>
-        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" x:Name="listView">
+        <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
+        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="datePickerFrom" Height="23" Width="130" SelectedDateChanged="DatePickerFrom_SelectedDateChanged"/>
+        <Label Grid.Row="0" Grid.Column="2" Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
+        <DatePicker Grid.Row="0" Grid.Column="3" x:Name="datePickerTo" Height="23" Width="130" SelectedDateChanged="DatePickerTo_SelectedDateChanged"/>
+        <Label Grid.Row="0" Grid.Column="4" Content="{x:Static props:Resources.LABEL_NAME}" Target="{Binding ElementName=textBoxName}"/>
+        <TextBox MaxLength="100" x:Name="textBoxName" Grid.Row="0" Grid.Column="5" Height="23" TextChanged="TextBoxName_TextChanged" KeyDown="TextBoxName_KeyDown"/>
+        <Label Grid.Row="0" Grid.Column="6" Content="{x:Static props:Resources.LABEL_HOURSPERDAY}" Target="{Binding ElementName=textBoxHours}"/>
+        <TextBox MaxLength="2" x:Name="textBoxHours" Grid.Row="0" Grid.Column="7" Width="30" Height="23" Text="8" TextChanged="TextBoxHours_TextChanged"/>
+        <Button x:Name="buttonAdd" Grid.Row="0" Grid.Column="8" Content="{x:Static props:Resources.BUTTON_ADD}" Height="23" Width="80" HorizontalAlignment="Left" Margin="5,0,5,0" Click="ButtonAdd_Click"/>
+        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8" x:Name="listView" SelectionMode="Extended" SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="ListView_MouseDoubleClick" KeyDown="ListView_KeyDown">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -44,40 +51,50 @@
                 <GridView>
                     <GridViewColumn Width="80">
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Von"/>
+                            <GridViewColumnHeader x:Name="gridViewColumHeaderStartDay" Tag="StartDay" Click="ListView_ColumnHeaderClick" Content="{x:Static props:Resources.COLUMN_FROM}"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding From, Converter={StaticResource DateValueConverter}}" TextAlignment="Left" />
+                                <TextBlock Text="{Binding StartDay, Converter={StaticResource DateValueConverter}}" TextAlignment="Left" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="80">
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Bis"/>
+                            <GridViewColumnHeader Content="{x:Static props:Resources.COLUMN_TO}" Tag="EndDay" Click="ListView_ColumnHeaderClick"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding To, Converter={StaticResource DateValueConverter}}" TextAlignment="Left" />
+                                <TextBlock Text="{Binding EndDay, Converter={StaticResource DateValueConverter}}" TextAlignment="Left" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Width="350" DisplayMemberBinding="{Binding Name}">
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Name"/>
+                            <GridViewColumnHeader Content="{x:Static props:Resources.COLUMN_NAME}" Tag="Name" Click="ListView_ColumnHeaderClick"/>
                         </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="90">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="{x:Static props:Resources.COLUMN_DAYS}" Tag="TotalDays" Click="ListView_ColumnHeaderClick"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TotalDays,StringFormat={}{0:F1},ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" TextAlignment="Left" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="1" Grid.Column="6" Margin="5,0,5,0" >
+        <Grid Grid.Row="1" Grid.Column="8" Margin="5,0,5,0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="26"/>
                 <RowDefinition Height="26"/>
             </Grid.RowDefinitions>
-            <Button x:Name="buttonEdit" Grid.Row="0" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button x:Name="buttonRemove" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button x:Name="buttonEdit" Grid.Row="0" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonEdit_Click"/>
+            <Button x:Name="buttonRemove" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonRemove_Click"/>
         </Grid>
-        <Button Grid.Row="3" Grid.Column="6" IsCancel="True" IsDefault="True" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonCancel_Click" HorizontalAlignment="Right"/>
+        <Button Grid.Row="3" Grid.Column="8" IsCancel="True" IsDefault="True" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonCancel_Click" HorizontalAlignment="Right"/>
     </Grid>
 </Window>

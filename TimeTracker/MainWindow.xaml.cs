@@ -556,7 +556,7 @@ namespace TimeTracker
             try
             {
                 var dlg = new OvertimeWindow(this, Properties.Resources.TITLE_OVERTIME, database);
-                dlg.ShowDialog();
+                dlg.ShowDialog(); // @TODO: non modal
             }
             catch (Exception ex)
             {

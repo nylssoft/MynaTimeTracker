@@ -126,8 +126,14 @@
   <data name="BUTTON_EDIT" xml:space="preserve">
     <value>_Bearbeiten...</value>
   </data>
+  <data name="BUTTON_FREEDAYS" xml:space="preserve">
+    <value>Freie Arbeitstage...</value>
+  </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
+  </data>
+  <data name="BUTTON_REFRESH" xml:space="preserve">
+    <value>Aktualisieren</value>
   </data>
   <data name="BUTTON_REMOVE" xml:space="preserve">
     <value>_Entfernen</value>
@@ -168,6 +174,9 @@
   <data name="CMD_STOP" xml:space="preserve">
     <value>S_top</value>
   </data>
+  <data name="COLUMN_DAYS" xml:space="preserve">
+    <value>Tage</value>
+  </data>
   <data name="COLUMN_DESCRIPTION" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
@@ -177,11 +186,38 @@
   <data name="COLUMN_ENDTIME" xml:space="preserve">
     <value>Ende</value>
   </data>
+  <data name="COLUMN_FROM" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="COLUMN_NAME" xml:space="preserve">
+    <value>Bezeichnung</value>
+  </data>
+  <data name="COLUMN_OVERTIME" xml:space="preserve">
+    <value>Überstunden</value>
+  </data>
   <data name="COLUMN_PROJECT" xml:space="preserve">
     <value>Projekt</value>
   </data>
+  <data name="COLUMN_REQUIREDWORKTIME" xml:space="preserve">
+    <value>Erforderliche Arbeitszeit</value>
+  </data>
   <data name="COLUMN_STARTTIME" xml:space="preserve">
     <value>Start</value>
+  </data>
+  <data name="COLUMN_TIMESPAN" xml:space="preserve">
+    <value>Zeitraum</value>
+  </data>
+  <data name="COLUMN_TO" xml:space="preserve">
+    <value>Bis</value>
+  </data>
+  <data name="COLUMN_WEEK" xml:space="preserve">
+    <value>Woche</value>
+  </data>
+  <data name="COLUMN_WORKTIME" xml:space="preserve">
+    <value>Geleistete Arbeitszeit</value>
+  </data>
+  <data name="COLUMN_YEAR" xml:space="preserve">
+    <value>Jahr</value>
   </data>
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>Ein Fehler ist aufgetreten. {0}</value>
@@ -198,14 +234,38 @@
   <data name="LABEL_ENDTIME_MINUTE" xml:space="preserve">
     <value>Endzeit M_inute:</value>
   </data>
+  <data name="LABEL_FROM" xml:space="preserve">
+    <value>Von:</value>
+  </data>
+  <data name="LABEL_HOURSPERDAY" xml:space="preserve">
+    <value>Stunden/Tag</value>
+  </data>
+  <data name="LABEL_HOURSPERWEEK" xml:space="preserve">
+    <value>Arbeitsstunden pro Woche:</value>
+  </data>
+  <data name="LABEL_NAME" xml:space="preserve">
+    <value>Bezeichnung:</value>
+  </data>
+  <data name="LABEL_PREVPLUSHOURS" xml:space="preserve">
+    <value>Überstundensaldo:</value>
+  </data>
   <data name="LABEL_PROJECT" xml:space="preserve">
     <value>_Projekt:</value>
+  </data>
+  <data name="LABEL_STARTDAYCALC" xml:space="preserve">
+    <value>Beginn der Berechnung:</value>
   </data>
   <data name="LABEL_STARTTIME_HOUR" xml:space="preserve">
     <value>_Startzeit Stunde:</value>
   </data>
   <data name="LABEL_STARTTIME_MINUTE" xml:space="preserve">
     <value>Startzeit _Minute:</value>
+  </data>
+  <data name="LABEL_TO" xml:space="preserve">
+    <value>Bis:</value>
+  </data>
+  <data name="LABEL_WORKDAYSPERWEEK" xml:space="preserve">
+    <value>Arbeitstage pro Woche:</value>
   </data>
   <data name="MENUITEM_EDIT" xml:space="preserve">
     <value>_Bearbeiten</value>
@@ -229,6 +289,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_DEFAULT_PROJECT" xml:space="preserve">
     <value>Standardprojekt</value>
   </data>
+  <data name="TEXT_MONDAYTOFRIDAY" xml:space="preserve">
+    <value>Montag bis Freitag</value>
+  </data>
+  <data name="TEXT_OVERTIME_0_1" xml:space="preserve">
+    <value>Überstunden von {0} bis {1}</value>
+  </data>
   <data name="TEXT_RECORD_START_0_1_2" xml:space="preserve">
     <value>Arbeitszeitaufzeichnung wurde gestartet am {0} um {1} für {2} Stunden.</value>
   </data>
@@ -238,14 +304,23 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_TOTAL_0_1" xml:space="preserve">
     <value>Gesamte Arbeitszeit am {0}: {1} Stunden.</value>
   </data>
+  <data name="TEXT_TOTAL_OVERTIME_0" xml:space="preserve">
+    <value>Gesamte Überstunden: {0}</value>
+  </data>
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Arbeitszeit hinzufügen</value>
+  </data>
+  <data name="TITLE_CONFIGURE_FREEDAYS" xml:space="preserve">
+    <value>Arbeitsfreie Tage konfigurieren</value>
   </data>
   <data name="TITLE_CONFIGURE_PROJECT" xml:space="preserve">
     <value>Projekte konfigurieren</value>
   </data>
   <data name="TITLE_EDIT" xml:space="preserve">
     <value>Arbeitszeit bearbeiten</value>
+  </data>
+  <data name="TITLE_EDIT_FREEDAYS" xml:space="preserve">
+    <value>Arbeitsfreie Tage bearbeiten</value>
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
     <value>Projekt bearbeiten</value>

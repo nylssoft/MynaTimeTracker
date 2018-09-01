@@ -24,16 +24,10 @@ namespace TimeTracker
     {
         public long Id { get; set; }
 
-        private DateTime from;
-        private DateTime to;
+        private DateTime startDay;
+        private DateTime endDay;
         private string name;
-
-        public NonWorkingDays(DateTime from, DateTime to, string name)
-        {
-            this.from = from;
-            this.to = to;
-            this.name = name;
-        }
+        private int hours;
 
         public string Name
         {
@@ -48,29 +42,52 @@ namespace TimeTracker
             }
         }
 
-        public DateTime From
+        public DateTime StartDay
         {
             get
             {
-                return from;
+                return startDay;
             }
             set
             {
-                from = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("From"));
+                startDay = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StartDay"));
             }
         }
 
-        public DateTime To
+        public DateTime EndDay
         {
             get
             {
-                return to;
+                return endDay;
             }
             set
             {
-                to = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To"));
+                endDay = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EndDay"));
+            }
+        }
+
+        public int Hours
+        {
+            get
+            {
+                return hours;
+            }
+            set
+            {
+                hours = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Hours"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalDays"));
+            }
+        }
+
+        public double TotalDays
+        {
+            get
+            {
+                var days = Convert.ToInt32((EndDay - StartDay).TotalDays) + 1;
+                return Hours == 4 ? days / 2.0 : days;
             }
         }
 

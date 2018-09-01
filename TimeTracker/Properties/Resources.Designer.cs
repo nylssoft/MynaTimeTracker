@@ -88,11 +88,29 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Free working days... ähnelt.
+        /// </summary>
+        public static string BUTTON_FREEDAYS {
+            get {
+                return ResourceManager.GetString("BUTTON_FREEDAYS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _OK ähnelt.
         /// </summary>
         public static string BUTTON_OK {
             get {
                 return ResourceManager.GetString("BUTTON_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Refresh ähnelt.
+        /// </summary>
+        public static string BUTTON_REFRESH {
+            get {
+                return ResourceManager.GetString("BUTTON_REFRESH", resourceCulture);
             }
         }
         
@@ -214,6 +232,15 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Days ähnelt.
+        /// </summary>
+        public static string COLUMN_DAYS {
+            get {
+                return ResourceManager.GetString("COLUMN_DAYS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Description ähnelt.
         /// </summary>
         public static string COLUMN_DESCRIPTION {
@@ -241,6 +268,33 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die From ähnelt.
+        /// </summary>
+        public static string COLUMN_FROM {
+            get {
+                return ResourceManager.GetString("COLUMN_FROM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
+        /// </summary>
+        public static string COLUMN_NAME {
+            get {
+                return ResourceManager.GetString("COLUMN_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Overtime ähnelt.
+        /// </summary>
+        public static string COLUMN_OVERTIME {
+            get {
+                return ResourceManager.GetString("COLUMN_OVERTIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Project ähnelt.
         /// </summary>
         public static string COLUMN_PROJECT {
@@ -250,11 +304,65 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Required working time ähnelt.
+        /// </summary>
+        public static string COLUMN_REQUIREDWORKTIME {
+            get {
+                return ResourceManager.GetString("COLUMN_REQUIREDWORKTIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start ähnelt.
         /// </summary>
         public static string COLUMN_STARTTIME {
             get {
                 return ResourceManager.GetString("COLUMN_STARTTIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Time span ähnelt.
+        /// </summary>
+        public static string COLUMN_TIMESPAN {
+            get {
+                return ResourceManager.GetString("COLUMN_TIMESPAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die To ähnelt.
+        /// </summary>
+        public static string COLUMN_TO {
+            get {
+                return ResourceManager.GetString("COLUMN_TO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Week ähnelt.
+        /// </summary>
+        public static string COLUMN_WEEK {
+            get {
+                return ResourceManager.GetString("COLUMN_WEEK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Working time ähnelt.
+        /// </summary>
+        public static string COLUMN_WORKTIME {
+            get {
+                return ResourceManager.GetString("COLUMN_WORKTIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Year ähnelt.
+        /// </summary>
+        public static string COLUMN_YEAR {
+            get {
+                return ResourceManager.GetString("COLUMN_YEAR", resourceCulture);
             }
         }
         
@@ -304,11 +412,65 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die From: ähnelt.
+        /// </summary>
+        public static string LABEL_FROM {
+            get {
+                return ResourceManager.GetString("LABEL_FROM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hours/Day ähnelt.
+        /// </summary>
+        public static string LABEL_HOURSPERDAY {
+            get {
+                return ResourceManager.GetString("LABEL_HOURSPERDAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Working hours per week: ähnelt.
+        /// </summary>
+        public static string LABEL_HOURSPERWEEK {
+            get {
+                return ResourceManager.GetString("LABEL_HOURSPERWEEK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name: ähnelt.
+        /// </summary>
+        public static string LABEL_NAME {
+            get {
+                return ResourceManager.GetString("LABEL_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Previous overtime plus: ähnelt.
+        /// </summary>
+        public static string LABEL_PREVPLUSHOURS {
+            get {
+                return ResourceManager.GetString("LABEL_PREVPLUSHOURS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Project: ähnelt.
         /// </summary>
         public static string LABEL_PROJECT {
             get {
                 return ResourceManager.GetString("LABEL_PROJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start calculation day: ähnelt.
+        /// </summary>
+        public static string LABEL_STARTDAYCALC {
+            get {
+                return ResourceManager.GetString("LABEL_STARTDAYCALC", resourceCulture);
             }
         }
         
@@ -327,6 +489,24 @@ namespace TimeTracker.Properties {
         public static string LABEL_STARTTIME_MINUTE {
             get {
                 return ResourceManager.GetString("LABEL_STARTTIME_MINUTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die To: ähnelt.
+        /// </summary>
+        public static string LABEL_TO {
+            get {
+                return ResourceManager.GetString("LABEL_TO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Work days per week: ähnelt.
+        /// </summary>
+        public static string LABEL_WORKDAYSPERWEEK {
+            get {
+                return ResourceManager.GetString("LABEL_WORKDAYSPERWEEK", resourceCulture);
             }
         }
         
@@ -389,6 +569,24 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monday to Friday ähnelt.
+        /// </summary>
+        public static string TEXT_MONDAYTOFRIDAY {
+            get {
+                return ResourceManager.GetString("TEXT_MONDAYTOFRIDAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Overtime from {0} to {1} ähnelt.
+        /// </summary>
+        public static string TEXT_OVERTIME_0_1 {
+            get {
+                return ResourceManager.GetString("TEXT_OVERTIME_0_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Working time recording started on {0} at {1} for {2} hours. ähnelt.
         /// </summary>
         public static string TEXT_RECORD_START_0_1_2 {
@@ -416,11 +614,29 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Total overtime: {0} ähnelt.
+        /// </summary>
+        public static string TEXT_TOTAL_OVERTIME_0 {
+            get {
+                return ResourceManager.GetString("TEXT_TOTAL_OVERTIME_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add Working Time ähnelt.
         /// </summary>
         public static string TITLE_ADD {
             get {
                 return ResourceManager.GetString("TITLE_ADD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure free days ähnelt.
+        /// </summary>
+        public static string TITLE_CONFIGURE_FREEDAYS {
+            get {
+                return ResourceManager.GetString("TITLE_CONFIGURE_FREEDAYS", resourceCulture);
             }
         }
         
@@ -439,6 +655,15 @@ namespace TimeTracker.Properties {
         public static string TITLE_EDIT {
             get {
                 return ResourceManager.GetString("TITLE_EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit free days ähnelt.
+        /// </summary>
+        public static string TITLE_EDIT_FREEDAYS {
+            get {
+                return ResourceManager.GetString("TITLE_EDIT_FREEDAYS", resourceCulture);
             }
         }
         

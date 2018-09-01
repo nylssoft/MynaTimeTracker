@@ -1,0 +1,36 @@
+﻿<Window x:Class="TimeTracker.EditNonWorkingDaysWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:props="clr-namespace:TimeTracker.Properties"
+        mc:Ignorable="d"
+        Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+        Icon="Images/logo.png" Height="230" Width="400" MinHeight="230" MaxHeight="230" MinWidth="400">
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="{x:Static props:Resources.LABEL_FROM}" Target="{Binding ElementName=datePickerFrom}"/>
+        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="datePickerFrom" Height="23" Width="150" HorizontalAlignment="Left" SelectedDateChanged="DatePickerFrom_SelectedDateChanged"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="{x:Static props:Resources.LABEL_TO}" Target="{Binding ElementName=datePickerTo}"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" x:Name="datePickerTo" Height="23" Width="150" HorizontalAlignment="Left" SelectedDateChanged="DatePickerTo_SelectedDateChanged"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="{x:Static props:Resources.LABEL_NAME}" Target="{Binding ElementName=textBoxName}" />
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="textBoxName" MaxLength="100" Height="23" Margin="0,0,6,0" TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="{x:Static props:Resources.LABEL_HOURSPERDAY}" Target="{Binding ElementName=textBoxHours}" />
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="textBoxHours" MaxLength="2" Height="23" Width="30" Margin="0,0,6,0" TextChanged="TextBox_TextChanged" GotFocus="TextBox_GotFocus" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="buttonOK" IsDefault="True" IsEnabled="False" Content="{x:Static props:Resources.BUTTON_OK}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonOK_Click"/>
+            <Button x:Name="buttonCancel" IsCancel="True" Content="{x:Static props:Resources.BUTTON_CANCEL}" Height="23" Width="80" Margin="5,0,5,0" />
+        </StackPanel>
+    </Grid>
+</Window>

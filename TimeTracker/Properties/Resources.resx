@@ -126,8 +126,14 @@
   <data name="BUTTON_EDIT" xml:space="preserve">
     <value>_Edit...</value>
   </data>
+  <data name="BUTTON_FREEDAYS" xml:space="preserve">
+    <value>Free working days...</value>
+  </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
+  </data>
+  <data name="BUTTON_REFRESH" xml:space="preserve">
+    <value>Refresh</value>
   </data>
   <data name="BUTTON_REMOVE" xml:space="preserve">
     <value>_Remove</value>
@@ -168,6 +174,9 @@
   <data name="CMD_STOP" xml:space="preserve">
     <value>S_top</value>
   </data>
+  <data name="COLUMN_DAYS" xml:space="preserve">
+    <value>Days</value>
+  </data>
   <data name="COLUMN_DESCRIPTION" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -177,11 +186,38 @@
   <data name="COLUMN_ENDTIME" xml:space="preserve">
     <value>End</value>
   </data>
+  <data name="COLUMN_FROM" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="COLUMN_NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="COLUMN_OVERTIME" xml:space="preserve">
+    <value>Overtime</value>
+  </data>
   <data name="COLUMN_PROJECT" xml:space="preserve">
     <value>Project</value>
   </data>
+  <data name="COLUMN_REQUIREDWORKTIME" xml:space="preserve">
+    <value>Required working time</value>
+  </data>
   <data name="COLUMN_STARTTIME" xml:space="preserve">
     <value>Start</value>
+  </data>
+  <data name="COLUMN_TIMESPAN" xml:space="preserve">
+    <value>Time span</value>
+  </data>
+  <data name="COLUMN_TO" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="COLUMN_WEEK" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="COLUMN_WORKTIME" xml:space="preserve">
+    <value>Working time</value>
+  </data>
+  <data name="COLUMN_YEAR" xml:space="preserve">
+    <value>Year</value>
   </data>
   <data name="ERROR_OCCURRED_0" xml:space="preserve">
     <value>An error occurred. {0}</value>
@@ -198,14 +234,38 @@
   <data name="LABEL_ENDTIME_MINUTE" xml:space="preserve">
     <value>End Time M_inute:</value>
   </data>
+  <data name="LABEL_FROM" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="LABEL_HOURSPERDAY" xml:space="preserve">
+    <value>Hours/Day</value>
+  </data>
+  <data name="LABEL_HOURSPERWEEK" xml:space="preserve">
+    <value>Working hours per week:</value>
+  </data>
+  <data name="LABEL_NAME" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="LABEL_PREVPLUSHOURS" xml:space="preserve">
+    <value>Previous overtime plus:</value>
+  </data>
   <data name="LABEL_PROJECT" xml:space="preserve">
     <value>_Project:</value>
+  </data>
+  <data name="LABEL_STARTDAYCALC" xml:space="preserve">
+    <value>Start calculation day:</value>
   </data>
   <data name="LABEL_STARTTIME_HOUR" xml:space="preserve">
     <value>_Start Time Hour:</value>
   </data>
   <data name="LABEL_STARTTIME_MINUTE" xml:space="preserve">
     <value>Start Time _Minute:</value>
+  </data>
+  <data name="LABEL_TO" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="LABEL_WORKDAYSPERWEEK" xml:space="preserve">
+    <value>Work days per week:</value>
   </data>
   <data name="MENUITEM_EDIT" xml:space="preserve">
     <value>_Edit</value>
@@ -229,6 +289,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_DEFAULT_PROJECT" xml:space="preserve">
     <value>Default project</value>
   </data>
+  <data name="TEXT_MONDAYTOFRIDAY" xml:space="preserve">
+    <value>Monday to Friday</value>
+  </data>
+  <data name="TEXT_OVERTIME_0_1" xml:space="preserve">
+    <value>Overtime from {0} to {1}</value>
+  </data>
   <data name="TEXT_RECORD_START_0_1_2" xml:space="preserve">
     <value>Working time recording started on {0} at {1} for {2} hours.</value>
   </data>
@@ -238,14 +304,23 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   <data name="TEXT_TOTAL_0_1" xml:space="preserve">
     <value>Total working time on {0}: {1} hours.</value>
   </data>
+  <data name="TEXT_TOTAL_OVERTIME_0" xml:space="preserve">
+    <value>Total overtime: {0}</value>
+  </data>
   <data name="TITLE_ADD" xml:space="preserve">
     <value>Add Working Time</value>
+  </data>
+  <data name="TITLE_CONFIGURE_FREEDAYS" xml:space="preserve">
+    <value>Configure free days</value>
   </data>
   <data name="TITLE_CONFIGURE_PROJECT" xml:space="preserve">
     <value>Configure Projects</value>
   </data>
   <data name="TITLE_EDIT" xml:space="preserve">
     <value>Edit Working Time</value>
+  </data>
+  <data name="TITLE_EDIT_FREEDAYS" xml:space="preserve">
+    <value>Edit free days</value>
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
     <value>Edit Project</value>

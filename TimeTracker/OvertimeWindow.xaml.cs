@@ -1,28 +1,33 @@
-﻿using System;
+﻿/*
+    Myna Time Tracker
+    Copyright (C) 2018 Niels Stockfleth
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TimeTracker
 {
     public partial class OvertimeWindow : Window
     {
         private Database database;
-        private ISet<DateTime> freeDays = new HashSet<DateTime>();
         private ObservableCollection<WeekOvertime> weekOvertimes = new ObservableCollection<WeekOvertime>();
-        private DateTime from;
-        private DateTime to;
 
         public OvertimeWindow(Window owner, string title, Database database)
         {
@@ -31,24 +36,36 @@ namespace TimeTracker
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             this.database = database;
             InitializeComponent();
-            to = DateTime.Today;
-            from = to;
-            var f = database.GetFirstStartTime();
-            if (f.HasValue)
-            {
-                from = f.Value.GetDayDateTime();
-            }
             listView.ItemsSource = weekOvertimes;
-            textBlockInfo.Text = $"Überstunden von {from.ToLongDateString()} bis {to.ToLongDateString()}";
-            Calculate();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = database.GetFirstStartTime();
+                if (f.HasValue)
+                {
+                    datePickerStartDay.SelectedDate = f.Value.GetDayDateTime();
+                }
+                Calculate();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
 
         private void ButtonNonWorkingDays_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var w = new ConfigureNonWorkingDaysWindow(this, "Arbeitsfreie Tage", database);
+                var w = new ConfigureNonWorkingDaysWindow(this, Properties.Resources.TITLE_CONFIGURE_FREEDAYS, database);
                 w.ShowDialog();
+                if (w.Changed)
+                {
+                    Calculate();
+                }
             }
             catch (Exception ex)
             {
@@ -61,28 +78,58 @@ namespace TimeTracker
             Close();
         }
 
-        private void Calculate()
+        private void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Calculate();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        }
+
+        private void Calculate()
+        {
+            var oldcursor = Cursor;
+            Cursor = Cursors.Wait;
+            try
+            {
+                textBlockResult.Text = "";
+                textBlockInfo.Text = "";
+                weekOvertimes.Clear();
+                if (!datePickerStartDay.SelectedDate.HasValue ||
+                    !double.TryParse(textBoxHoursPerWeek.Text, out double hoursPerWeek) ||
+                    !double.TryParse(textBoxStartOverTimeHours.Text, out double overTimeBefore))
+                {
+                    return;
+                }
+                var from = datePickerStartDay.SelectedDate.Value.GetDayDateTime();
+                var to = DateTime.Today;
+                textBlockInfo.Text = string.Format(Properties.Resources.TEXT_OVERTIME_0_1, from.ToLongDateString(), to.ToLongDateString());
+                var freeDays = new HashSet<DateTime>();
+                var halfDays = new HashSet<DateTime>();
+                foreach (var nwd in database.SelectAllNonWorkingDays())
+                {
+                    for (var day = nwd.StartDay; day <= nwd.EndDay; day = day.AddDays(1.0))
+                    {
+                        freeDays.Add(day);
+                        if (nwd.Hours == 4)
+                        {
+                            halfDays.Add(day);
+                        }
+                    }
+                }
+                var weekInfo = new Dictionary<Tuple<int, int>, Tuple<double, double>>();
+                double overTime = overTimeBefore;
+                double hoursPerDay = hoursPerWeek / 5.0;
                 var dfi = DateTimeFormatInfo.CurrentInfo;
                 var cal = dfi.Calendar;
-
-                freeDays.Clear();
-                freeDays.Add(new DateTime(2018, 08, 15));
-                freeDays.Add(new DateTime(2018, 10, 03));
-                freeDays.Add(new DateTime(2018, 11, 01));
-                freeDays.Add(new DateTime(2018, 12, 25));
-                freeDays.Add(new DateTime(2018, 12, 26));
-
-                IDictionary<Tuple<int,int>, Tuple<double, double>> weekInfo = new Dictionary<Tuple<int, int>, Tuple<double, double>>();
-
-                double overTime = 0.0;
                 var dt = from;
                 while (dt < to)
                 {
                     var hours = WorkTime.CalculateTotalHours(database.SelectWorkTimes(dt));
-
                     var weekofyear = cal.GetWeekOfYear(dt, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
                     var key = Tuple.Create(dt.Year, weekofyear);
                     if (!weekInfo.TryGetValue(key, out Tuple<double, double> t))
@@ -92,18 +139,25 @@ namespace TimeTracker
                     }
                     if (!dt.IsWorkDay() || freeDays.Contains(dt))
                     {
-                        overTime += hours;
-                        weekInfo[key] = Tuple.Create(t.Item1 + hours, t.Item2);
+                        if (dt.IsWorkDay() && halfDays.Contains(dt))
+                        {
+                            overTime += hours - hoursPerDay / 2;
+                            weekInfo[key] = Tuple.Create(t.Item1 + hours, t.Item2 + hoursPerDay / 2);
+                        }
+                        else
+                        {
+                            overTime += hours;
+                            weekInfo[key] = Tuple.Create(t.Item1 + hours, t.Item2);
+                        }
                     }
                     else
                     {
-                        overTime += hours - 8.0;
-                        weekInfo[key] = Tuple.Create(t.Item1 + hours, t.Item2 + 8.0);
+                        overTime += hours - hoursPerDay;
+                        weekInfo[key] = Tuple.Create(t.Item1 + hours, t.Item2 + hoursPerDay);
                     }
                     dt = dt.AddDays(1.0);
                 }
-                textBlockResult.Text = $"Gesamte Überstunden: {DurationValueConverter.Convert(overTime)}";
-                weekOvertimes.Clear();
+                textBlockResult.Text = string.Format(Properties.Resources.TEXT_TOTAL_OVERTIME_0, DurationValueConverter.Convert(overTime));
                 foreach (var elem in weekInfo)
                 {
                     var weekovertime = new WeekOvertime(
@@ -116,7 +170,12 @@ namespace TimeTracker
             }
             catch (Exception ex)
             {
+                Cursor = oldcursor;
                 HandleError(ex);
+            }
+            finally
+            {
+                Cursor = oldcursor;
             }
         }
 
