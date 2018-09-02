@@ -95,6 +95,6 @@
             <Button x:Name="buttonEdit" Grid.Row="0" Content="{x:Static props:Resources.BUTTON_EDIT}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonEdit_Click"/>
             <Button x:Name="buttonRemove" Grid.Row="1" Content="{x:Static props:Resources.BUTTON_REMOVE}" Height="23" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ButtonRemove_Click"/>
         </Grid>
-        <Button Grid.Row="3" Grid.Column="8" IsCancel="True" IsDefault="True" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonCancel_Click" HorizontalAlignment="Right"/>
+        <Button Grid.Row="3" Grid.Column="8" IsCancel="True" Content="{x:Static props:Resources.CMD_CLOSE}" Height="23" Width="80" Margin="5,0,5,0" Click="ButtonCancel_Click" HorizontalAlignment="Right"/>
     </Grid>
 </Window>

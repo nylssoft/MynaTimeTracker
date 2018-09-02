@@ -114,6 +114,7 @@ namespace TimeTracker
                 nonWorkingDays.Add(nwd);
                 SelectNonWorkingDays(nwd);
                 textBoxName.Text = "";
+                textBoxHours.Text = "8";
                 datePickerFrom.SelectedDate = null;
                 datePickerTo.SelectedDate = null;
                 datePickerFrom.Focus();
