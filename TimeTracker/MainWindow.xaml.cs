@@ -73,11 +73,13 @@ namespace TimeTracker
                 e.Reason == Microsoft.Win32.SessionSwitchReason.RemoteDisconnect)
             {
                 Stop();
+                CommandManager.InvalidateRequerySuggested();
             }
             else if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock ||
                 e.Reason == Microsoft.Win32.SessionSwitchReason.RemoteConnect)
             {
                 Start();
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
