@@ -88,7 +88,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Free working days... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Free working days... ähnelt.
         /// </summary>
         public static string BUTTON_FREEDAYS {
             get {
@@ -106,7 +106,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Refresh ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Refresh ähnelt.
         /// </summary>
         public static string BUTTON_REFRESH {
             get {
@@ -142,7 +142,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Calculate Overtime... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calculate _Overtime... ähnelt.
         /// </summary>
         public static string CMD_CALCULATE_OVERTIME {
             get {
@@ -322,7 +322,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Time span ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Period ähnelt.
         /// </summary>
         public static string COLUMN_TIMESPAN {
             get {
@@ -412,7 +412,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die From: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _From: ähnelt.
         /// </summary>
         public static string LABEL_FROM {
             get {
@@ -421,7 +421,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hours/Day ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Hours/Day ähnelt.
         /// </summary>
         public static string LABEL_HOURSPERDAY {
             get {
@@ -430,7 +430,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Working hours per week: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Working hours per week: ähnelt.
         /// </summary>
         public static string LABEL_HOURSPERWEEK {
             get {
@@ -439,7 +439,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Name: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Name: ähnelt.
         /// </summary>
         public static string LABEL_NAME {
             get {
@@ -448,7 +448,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Previous overtime plus: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Overtime balance: ähnelt.
         /// </summary>
         public static string LABEL_PREVPLUSHOURS {
             get {
@@ -466,7 +466,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Start calculation day: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Start calculation day: ähnelt.
         /// </summary>
         public static string LABEL_STARTDAYCALC {
             get {
@@ -493,7 +493,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die To: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _To: ähnelt.
         /// </summary>
         public static string LABEL_TO {
             get {
@@ -502,7 +502,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Work days per week: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Working days per week: ähnelt.
         /// </summary>
         public static string LABEL_WORKDAYSPERWEEK {
             get {
@@ -632,7 +632,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Configure free days ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure Free Working Days ähnelt.
         /// </summary>
         public static string TITLE_CONFIGURE_FREEDAYS {
             get {
@@ -659,7 +659,7 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Edit free days ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit Free Working Days ähnelt.
         /// </summary>
         public static string TITLE_EDIT_FREEDAYS {
             get {

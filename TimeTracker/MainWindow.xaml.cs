@@ -38,7 +38,8 @@ namespace TimeTracker
         private DateTime? currentStartTime;
         private DateTime? selectedDate;
         private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Ascending);
-        
+        private OvertimeWindow overtimeWindow = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -84,6 +85,19 @@ namespace TimeTracker
         {
             try
             {
+                if (overtimeWindow != null)
+                {
+                    if (overtimeWindow.ConfigureNonWorkingDaysWindow != null && !overtimeWindow.ConfigureNonWorkingDaysWindow.IsClosed)
+                    {
+                        overtimeWindow.ConfigureNonWorkingDaysWindow.Close();
+                        overtimeWindow.ConfigureNonWorkingDaysWindow = null;
+                    }
+                    if (!overtimeWindow.IsClosed)
+                    {
+                        overtimeWindow.Close();
+                        overtimeWindow = null;
+                    }
+                }
                 Stop();
                 if (WindowState == WindowState.Normal)
                 {
@@ -92,8 +106,7 @@ namespace TimeTracker
                     Properties.Settings.Default.Width = Width;
                     Properties.Settings.Default.Height = Height;
                 }
-                Project lastUsedProject = comboBoxProject.SelectedItem as Project;
-                if (lastUsedProject != null)
+                if (comboBoxProject.SelectedItem is Project lastUsedProject)
                 {
                     Properties.Settings.Default.LastUsedProject = lastUsedProject.Name;
                 }
@@ -275,9 +288,11 @@ namespace TimeTracker
             {
                 comboBoxProject.SelectedItem = lastUsedProject;
             }
-            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;            
-            var timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
+            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            var timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
             UpdateStatus();
@@ -555,8 +570,15 @@ namespace TimeTracker
         {
             try
             {
-                var dlg = new OvertimeWindow(this, Properties.Resources.TITLE_OVERTIME, database);
-                dlg.ShowDialog(); // @TODO: non modal
+                if (overtimeWindow == null || overtimeWindow.IsClosed)
+                {
+                    overtimeWindow = new OvertimeWindow(null, Properties.Resources.TITLE_OVERTIME, database);
+                    overtimeWindow.Show();
+                }
+                else
+                {
+                    overtimeWindow.Activate();
+                }
             }
             catch (Exception ex)
             {
@@ -627,15 +649,12 @@ namespace TimeTracker
             {
                 var hours = CalculateTotalHours(database.SelectWorkTimes(dt));
                 var weekofyear = cal.GetWeekOfYear(dt, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-                
-                double weekhours = 0.0;
-                if (!hoursPerWeek.TryGetValue(weekofyear, out weekhours))
+                if (!hoursPerWeek.TryGetValue(weekofyear, out double weekhours))
                 {
                     hoursPerWeek[weekofyear] = 0.0;
                 }
                 hoursPerWeek[weekofyear] += hours;
-                double weekrequired = 0.0;
-                if (!requiredPerWeek.TryGetValue(weekofyear, out weekrequired))
+                if (!requiredPerWeek.TryGetValue(weekofyear, out double weekrequired))
                 {
                     requiredPerWeek[weekofyear] = 0.0;
                 }

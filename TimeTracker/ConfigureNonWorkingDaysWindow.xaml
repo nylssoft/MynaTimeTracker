@@ -8,7 +8,7 @@
         xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"        
         mc:Ignorable="d"
         Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
-        Loaded="Window_Loaded"
+        Loaded="Window_Loaded" Closed="Window_Closed"
         Height="300" Width="770" MinHeight="300" MinWidth="300" Icon="Images/logo.png">
     <Window.Resources>
         <self:DateValueConverter x:Key="DateValueConverter" />

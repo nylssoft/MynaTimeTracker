@@ -49,7 +49,11 @@ namespace TimeTracker
         {
             get
             {
-                string p = "dd.MM"; // @TODO: not localized
+                string p = "MM/dd"; // english
+                if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "de")
+                {
+                    p = "dd.MM";
+                }
                 return FirstDay.ToString(p) + " - " + LastDay.ToString(p);
             }
         }

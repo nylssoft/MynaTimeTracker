@@ -53,6 +53,13 @@ namespace TimeTracker
             init = false;
         }
 
+        public bool IsClosed { get; set; } = false;
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            IsClosed = true;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
@@ -123,8 +130,7 @@ namespace TimeTracker
         {
             if (init) return;
             if (listView.SelectedItems.Count != 1) return;
-            NonWorkingDays nwd = listView.SelectedItem as NonWorkingDays;
-            if (nwd == null) return;
+            if (!(listView.SelectedItem is NonWorkingDays nwd)) return;
             var w = new EditNonWorkingDaysWindow(this, Properties.Resources.TITLE_EDIT_FREEDAYS, nwd);
             if (w.ShowDialog() == true)
             {

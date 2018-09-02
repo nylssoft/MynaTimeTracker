@@ -127,13 +127,13 @@
     <value>_Edit...</value>
   </data>
   <data name="BUTTON_FREEDAYS" xml:space="preserve">
-    <value>Free working days...</value>
+    <value>_Free working days...</value>
   </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
   </data>
   <data name="BUTTON_REFRESH" xml:space="preserve">
-    <value>Refresh</value>
+    <value>_Refresh</value>
   </data>
   <data name="BUTTON_REMOVE" xml:space="preserve">
     <value>_Remove</value>
@@ -145,7 +145,7 @@
     <value>_Add</value>
   </data>
   <data name="CMD_CALCULATE_OVERTIME" xml:space="preserve">
-    <value>Calculate Overtime...</value>
+    <value>Calculate _Overtime...</value>
   </data>
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>_Close</value>
@@ -205,7 +205,7 @@
     <value>Start</value>
   </data>
   <data name="COLUMN_TIMESPAN" xml:space="preserve">
-    <value>Time span</value>
+    <value>Period</value>
   </data>
   <data name="COLUMN_TO" xml:space="preserve">
     <value>To</value>
@@ -235,25 +235,25 @@
     <value>End Time M_inute:</value>
   </data>
   <data name="LABEL_FROM" xml:space="preserve">
-    <value>From:</value>
+    <value>_From:</value>
   </data>
   <data name="LABEL_HOURSPERDAY" xml:space="preserve">
-    <value>Hours/Day</value>
+    <value>_Hours/Day</value>
   </data>
   <data name="LABEL_HOURSPERWEEK" xml:space="preserve">
-    <value>Working hours per week:</value>
+    <value>_Working hours per week:</value>
   </data>
   <data name="LABEL_NAME" xml:space="preserve">
-    <value>Name:</value>
+    <value>_Name:</value>
   </data>
   <data name="LABEL_PREVPLUSHOURS" xml:space="preserve">
-    <value>Previous overtime plus:</value>
+    <value>_Overtime balance:</value>
   </data>
   <data name="LABEL_PROJECT" xml:space="preserve">
     <value>_Project:</value>
   </data>
   <data name="LABEL_STARTDAYCALC" xml:space="preserve">
-    <value>Start calculation day:</value>
+    <value>_Start calculation day:</value>
   </data>
   <data name="LABEL_STARTTIME_HOUR" xml:space="preserve">
     <value>_Start Time Hour:</value>
@@ -262,10 +262,10 @@
     <value>Start Time _Minute:</value>
   </data>
   <data name="LABEL_TO" xml:space="preserve">
-    <value>To:</value>
+    <value>_To:</value>
   </data>
   <data name="LABEL_WORKDAYSPERWEEK" xml:space="preserve">
-    <value>Work days per week:</value>
+    <value>Working days per week:</value>
   </data>
   <data name="MENUITEM_EDIT" xml:space="preserve">
     <value>_Edit</value>
@@ -311,7 +311,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Add Working Time</value>
   </data>
   <data name="TITLE_CONFIGURE_FREEDAYS" xml:space="preserve">
-    <value>Configure free days</value>
+    <value>Configure Free Working Days</value>
   </data>
   <data name="TITLE_CONFIGURE_PROJECT" xml:space="preserve">
     <value>Configure Projects</value>
@@ -320,7 +320,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     <value>Edit Working Time</value>
   </data>
   <data name="TITLE_EDIT_FREEDAYS" xml:space="preserve">
-    <value>Edit free days</value>
+    <value>Edit Free Working Days</value>
   </data>
   <data name="TITLE_EDIT_PROJECT" xml:space="preserve">
     <value>Edit Project</value>

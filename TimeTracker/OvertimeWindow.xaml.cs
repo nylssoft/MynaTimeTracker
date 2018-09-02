@@ -39,6 +39,10 @@ namespace TimeTracker
             listView.ItemsSource = weekOvertimes;
         }
 
+        public ConfigureNonWorkingDaysWindow ConfigureNonWorkingDaysWindow { get; set; } = null;
+
+        public bool IsClosed { get; set; } = false;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -56,15 +60,23 @@ namespace TimeTracker
             }
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            IsClosed = true;
+        }
+
         private void ButtonNonWorkingDays_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var w = new ConfigureNonWorkingDaysWindow(this, Properties.Resources.TITLE_CONFIGURE_FREEDAYS, database);
-                w.ShowDialog();
-                if (w.Changed)
+                if (ConfigureNonWorkingDaysWindow == null || ConfigureNonWorkingDaysWindow.IsClosed)
                 {
-                    Calculate();
+                    ConfigureNonWorkingDaysWindow = new ConfigureNonWorkingDaysWindow(null, Properties.Resources.TITLE_CONFIGURE_FREEDAYS, database);
+                    ConfigureNonWorkingDaysWindow.Show();
+                }
+                else
+                {
+                    ConfigureNonWorkingDaysWindow.Activate();
                 }
             }
             catch (Exception ex)

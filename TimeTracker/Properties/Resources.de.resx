@@ -127,13 +127,13 @@
     <value>_Bearbeiten...</value>
   </data>
   <data name="BUTTON_FREEDAYS" xml:space="preserve">
-    <value>Freie Arbeitstage...</value>
+    <value>_Freie Arbeitstage...</value>
   </data>
   <data name="BUTTON_OK" xml:space="preserve">
     <value>_OK</value>
   </data>
   <data name="BUTTON_REFRESH" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>A_ktualisieren</value>
   </data>
   <data name="BUTTON_REMOVE" xml:space="preserve">
     <value>_Entfernen</value>
@@ -145,7 +145,7 @@
     <value>_Hinzufügen</value>
   </data>
   <data name="CMD_CALCULATE_OVERTIME" xml:space="preserve">
-    <value>Überstunden berechnen...</value>
+    <value>Üb_erstunden berechnen...</value>
   </data>
   <data name="CMD_CLOSE" xml:space="preserve">
     <value>S_chließen</value>
@@ -235,25 +235,25 @@
     <value>Endzeit M_inute:</value>
   </data>
   <data name="LABEL_FROM" xml:space="preserve">
-    <value>Von:</value>
+    <value>_Von:</value>
   </data>
   <data name="LABEL_HOURSPERDAY" xml:space="preserve">
-    <value>Stunden/Tag</value>
+    <value>_Stunden/Tag</value>
   </data>
   <data name="LABEL_HOURSPERWEEK" xml:space="preserve">
-    <value>Arbeitsstunden pro Woche:</value>
+    <value>_Arbeitsstunden pro Woche:</value>
   </data>
   <data name="LABEL_NAME" xml:space="preserve">
-    <value>Bezeichnung:</value>
+    <value>Be_zeichnung:</value>
   </data>
   <data name="LABEL_PREVPLUSHOURS" xml:space="preserve">
-    <value>Überstundensaldo:</value>
+    <value>Üb_erstundensaldo:</value>
   </data>
   <data name="LABEL_PROJECT" xml:space="preserve">
     <value>_Projekt:</value>
   </data>
   <data name="LABEL_STARTDAYCALC" xml:space="preserve">
-    <value>Beginn der Berechnung:</value>
+    <value>_Beginn der Berechnung:</value>
   </data>
   <data name="LABEL_STARTTIME_HOUR" xml:space="preserve">
     <value>_Startzeit Stunde:</value>
@@ -262,7 +262,7 @@
     <value>Startzeit _Minute:</value>
   </data>
   <data name="LABEL_TO" xml:space="preserve">
-    <value>Bis:</value>
+    <value>B_is:</value>
   </data>
   <data name="LABEL_WORKDAYSPERWEEK" xml:space="preserve">
     <value>Arbeitstage pro Woche:</value>

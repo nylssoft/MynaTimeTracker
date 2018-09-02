@@ -22,8 +22,6 @@
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="Myna Time Tracker"/>
       </Directory>
-      <Directory Id="StartupFolder">
-      </Directory>
     </Directory>
     
     <DirectoryRef Id="ApplicationFolder">
@@ -61,18 +59,6 @@
         <RegistryValue Root="HKCU" Key="Software\Microsoft\MynaTimeTracker" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
-
-    <DirectoryRef Id="StartupFolder">
-      <Component Id="TimeTrackerStartupShortcut" Guid="AEABA644-89C8-4D57-BC1F-867C0A061F8F">
-        <Shortcut Id="TimeTrackerStartupMenuShortcut" 
-                  Name="Myna Time Tracker" 
-                  Description="A utility to record working times"
-                  Target="[#TimeTrackerFile]"
-                  WorkingDirectory="ApplicationFolder"/>
-        <RemoveFolder Id="StartupFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\Microsoft\MynaTimeTracker" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-      </Component>
-    </DirectoryRef>
     
     <Feature Id="MainApplication" Title="Myna Time Tracker" Level="1">
       <ComponentRef Id="TimeTracker" />
@@ -82,7 +68,6 @@
       <ComponentRef Id="SQLiteConfig" />
       <ComponentRef Id="ResourcesTimeTracker.DE" />
       <ComponentRef Id="TimeTrackerShortcut" />
-      <ComponentRef Id="TimeTrackerStartupShortcut" />
     </Feature>
 
     <Icon Id="Icon.exe" SourceFile="$(var.TimeTracker.ProjectDir)\logo.ico"/>
