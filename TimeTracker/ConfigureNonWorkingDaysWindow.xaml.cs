@@ -32,7 +32,7 @@ namespace TimeTracker
 
         private Database database;
         private ObservableCollection<NonWorkingDays> nonWorkingDays = new ObservableCollection<NonWorkingDays>();
-        private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Ascending);
+        private SortDecorator sortDecorator = new SortDecorator(ListSortDirection.Descending);
         private bool init = false;
 
         public ConfigureNonWorkingDaysWindow(Window owner, string title, Database database)
@@ -63,8 +63,8 @@ namespace TimeTracker
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            viewlist.SortDescriptions.Add(new SortDescription("StartDay", ListSortDirection.Ascending));
-            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
+            viewlist.SortDescriptions.Add(new SortDescription("StartDay", ListSortDirection.Descending));
+            viewlist.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
             sortDecorator.Click(gridViewColumHeaderStartDay);
         }
 

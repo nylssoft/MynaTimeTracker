@@ -318,16 +318,7 @@ namespace TimeTracker
 
         private void UpdateTotalHours()
         {
-            double dur = CalculateTotalHours();
-
-            /*
-            database.UpdateWorkTimePerDay(datePicker.SelectedDate.Value, dur);
-            var dtstart = database.GetFirstStartTime();
-            if (dtstart.HasValue)
-            {
-                textBlockOverTime.Text = Convert.ToString(database.GetTotalHours(dtstart.Value, DateTime.Now));
-            }
-            */
+            double dur = WorkTime.CalculateTotalHours(workTimes);
             textBlockTotal.Text = string.Format(Properties.Resources.TEXT_TOTAL_0_1, datePicker.SelectedDate.Value.ToLongDateString(), DurationValueConverter.Convert(dur));
         }
 
@@ -384,7 +375,6 @@ namespace TimeTracker
                 {
                     return;
                 }
-                // @TODO: add only if totalminutes > 1.0,
                 var ts = DateTime.Now - currentStartTime.Value;
                 // RemoveDisconnect and RemoteConnect events are fired twice
                 // store working times only if longer than 1 minute
@@ -413,7 +403,6 @@ namespace TimeTracker
                 }
                 currentStartTime = null;
                 textBlockStatus.Text = Properties.Resources.TEXT_RECORD_STOP;
-                //textBlockOverTime.Text = DurationValueConverter.Convert(CalculateOverTime());
             }
             catch (Exception ex)
             {
@@ -596,121 +585,6 @@ namespace TimeTracker
                 Title,
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
-        }
-
-        private ISet<DateTime> freeDays = new HashSet<DateTime>();
-
-        private double CalculateOverTime()
-        {
-            freeDays.Clear();
-            freeDays.Add(new DateTime(2018, 08, 15));
-            freeDays.Add(new DateTime(2018, 10, 03));
-            freeDays.Add(new DateTime(2018, 11, 01));
-            freeDays.Add(new DateTime(2018, 12, 25));
-            freeDays.Add(new DateTime(2018, 12, 26));
-
-            var first = database.GetFirstStartTime().Value.GetDayDateTime();
-            var last = DateTime.Now.GetDayDateTime();
-
-            var dfi = DateTimeFormatInfo.CurrentInfo;
-            var cal = dfi.Calendar;
-            /*
-            Console.WriteLine("{0:d}: Week {1} ({2})", date1,
-                              cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                dfi.FirstDayOfWeek),
-                              cal.ToString().Substring(cal.ToString().LastIndexOf(".") + 1));
-            */
-            IDictionary<int, double> hoursPerWeek = new Dictionary<int, double>();
-            IDictionary<int, double> requiredPerWeek = new Dictionary<int, double>();
-            var dt = first;
-            double overTime = 0.0;
-
-            var fd = dfi.FirstDayOfWeek;
-            var dt2018 = new DateTime(2019, 1, 1);
-            var firstDayOfWeek1 = dt2018.AddDays(dfi.FirstDayOfWeek - dt2018.DayOfWeek);
-
-            // table WorkingWeek (Year, Week, Worked, Required)
-            // 2018
-            // Woche, Datum, Geleistete Arbeitszeit, Erforderliche Arbeitszeit, Überstunden
-            // 32, 12.7 - 16.7, 32.6, 40, -7,4
-
-            var diff = DayOfWeek.Tuesday - dt2018.DayOfWeek;
-            var firstMonday = dt2018.AddDays(diff);
-
-            int firstWeek = cal.GetWeekOfYear(dt2018, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            int weeknumber = 34;
-            if ( firstWeek <= 1 )
-            {
-                weeknumber -= 1;
-            }
-            var firstdateofweek = firstMonday.AddDays(weeknumber * 7);
-
-            int w1 = cal.GetWeekOfYear(new DateTime(2019, 1, 1), dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-            int w2 = cal.GetWeekOfYear(new DateTime(2019, 1, 2), dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-            while (dt < last)
-            {
-                var hours = CalculateTotalHours(database.SelectWorkTimes(dt));
-                var weekofyear = cal.GetWeekOfYear(dt, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
-                if (!hoursPerWeek.TryGetValue(weekofyear, out double weekhours))
-                {
-                    hoursPerWeek[weekofyear] = 0.0;
-                }
-                hoursPerWeek[weekofyear] += hours;
-                if (!requiredPerWeek.TryGetValue(weekofyear, out double weekrequired))
-                {
-                    requiredPerWeek[weekofyear] = 0.0;
-                }
-                if (!dt.IsWorkDay() || freeDays.Contains(dt))
-                {
-                    overTime += hours;
-                }
-                else
-                {
-                    overTime += hours - 8.0;
-                    requiredPerWeek[weekofyear] += 8.0;
-                }
-                dt = dt.AddDays(1.0);
-            }
-            return overTime;
-        }
-
-        private double CalculateTotalHours()
-        {
-            return CalculateTotalHours(workTimes);
-        }
-
-        private double CalculateTotalHours(ICollection<WorkTime> wts)
-        {
-            var intervals = new List<WorkTime>();
-            foreach (var wt in wts)
-            {
-                intervals.Add(new WorkTime { StartTime = wt.StartTime, EndTime = wt.EndTime });
-            }
-            intervals.Sort((a, b) => { return a.StartTime.CompareTo(b.StartTime); });
-            for (int idx = 0; idx < intervals.Count - 1;)
-            {
-                var et1 = intervals[idx].EndTime;
-                var st2 = intervals[idx+1].StartTime;
-                var et2 = intervals[idx+1].EndTime;
-                if (st2 <= et1) // overlap interval i2 with i1
-                {
-                    if (et2 >= et1) // is interval i2 not included in i1
-                    {
-                        intervals[idx].EndTime = et2; // extend interval i1
-                    }
-                    intervals.RemoveAt(idx+1); // remove interval i2
-                }
-                else
-                {
-                    idx++; // empty intersection with interval i1 and i2, continue with next interval
-                }
-            }
-            double t = 0.0;
-            foreach (var i in intervals)
-            {
-                t += (i.EndTime - i.StartTime).TotalHours;
-            }
-            return t;
         }
 
         #endregion
