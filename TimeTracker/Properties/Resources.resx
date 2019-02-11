@@ -162,6 +162,9 @@
   <data name="CMD_EXIT" xml:space="preserve">
     <value>_Exit</value>
   </data>
+  <data name="CMD_MERGE" xml:space="preserve">
+    <value>_Merge</value>
+  </data>
   <data name="CMD_NEXT" xml:space="preserve">
     <value>_Next</value>
   </data>

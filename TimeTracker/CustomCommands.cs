@@ -66,6 +66,12 @@ namespace TimeTracker
             typeof(CustomCommands),
             new InputGestureCollection() { new KeyGesture(Key.Enter) });
 
+        public static readonly RoutedUICommand Merge =
+            new RoutedUICommand(
+            Properties.Resources.CMD_MERGE,
+            "Merge",
+            typeof(CustomCommands));
+
         public static readonly RoutedUICommand About =
             new RoutedUICommand(
             Properties.Resources.CMD_ABOUT,

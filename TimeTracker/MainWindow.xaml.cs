@@ -156,7 +156,7 @@ namespace TimeTracker
             var lvitem = listView.GetItemAt(mousePosition);
             if (lvitem != null)
             {
-                UpdateWorkTime(lvitem.Content as WorkTime);
+                UpdateWorkTime(lvitem.Content as WorkTime, false);
             }
         }
 
@@ -184,10 +184,13 @@ namespace TimeTracker
                     e.CanExecute = true;
                     break;
                 case "Edit":
-                    e.CanExecute = selcount == 1;
+                    e.CanExecute = selcount >= 1;
                     break;
                 case "Remove":
                     e.CanExecute = selcount >= 1;
+                    break;
+                case "Merge":
+                    e.CanExecute = selcount > 1;
                     break;
                 default:
                     break;
@@ -225,6 +228,9 @@ namespace TimeTracker
                     break;
                 case "Add":
                     InsertWorkTime();
+                    break;
+                case "Merge":
+                    MerkWorkTimes();
                     break;
                 case "ConfigureProjects":
                     ConfigureProjects();
@@ -415,7 +421,7 @@ namespace TimeTracker
             try
             {
                 var lastUsedProject = comboBoxProject.SelectedItem as Project;
-                var wnd = new EditWindow(this, Properties.Resources.TITLE_ADD, null, projects, datePicker.SelectedDate, lastUsedProject);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_ADD, null, projects, false, datePicker.SelectedDate, lastUsedProject);
                 if (wnd.ShowDialog() == true)
                 {
                     var wt = wnd.WorkTime;
@@ -448,19 +454,78 @@ namespace TimeTracker
             }
         }
 
-        private void UpdateWorkTime()
+        private void MerkWorkTimes()
         {
-            UpdateWorkTime(listView.SelectedItem as WorkTime);
+            try
+            {
+                if (listView.SelectedItems.Count < 2) return;
+                var idx = listView.SelectedIndex;
+                WorkTime baseEntry = listView.SelectedItem as WorkTime;
+                var startTime = baseEntry.StartTime;
+                var endTime = baseEntry.EndTime;
+                var deleteWorkTimes = new List<WorkTime>();
+                foreach (WorkTime wt in listView.SelectedItems)
+                {
+                    if (wt.Id != baseEntry.Id)
+                    {
+                        if (wt.StartTime < startTime)
+                        {
+                            startTime = wt.StartTime;
+                        }
+                        if (wt.EndTime > endTime)
+                        {
+                            endTime = wt.EndTime;
+                        }
+                        deleteWorkTimes.Add(wt);
+                    }
+                }
+                baseEntry.StartTime = startTime;
+                baseEntry.EndTime = endTime;
+                database.UpdateWorkTime(baseEntry);
+                foreach (var wt in deleteWorkTimes)
+                {
+                    database.DeleteWorkTime(wt);
+                    workTimes.Remove(wt);
+                }
+                UpdateTotalHours();
+                idx = Math.Min(idx, listView.Items.Count - 1);
+                if (idx >= 0)
+                {
+                    listView.SelectedIndex = idx;
+                    listView.FocusItem(idx);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
         }
 
-        private void UpdateWorkTime(WorkTime wt)
+        private void UpdateWorkTime()
+        {
+            WorkTime wt = listView.SelectedItem as WorkTime;
+            UpdateWorkTime(wt, listView.SelectedItems.Count > 1);
+        }
+
+        private void UpdateWorkTime(WorkTime wt, bool multipleSelection)
         {
             try
             {
                 if (wt == null) return;
-                var wnd = new EditWindow(this, Properties.Resources.TITLE_EDIT, wt, projects);
+                var wnd = new EditWindow(this, Properties.Resources.TITLE_EDIT, wt, projects, multipleSelection);
                 if (wnd.ShowDialog() == true)
                 {
+                    if (multipleSelection)
+                    {
+                        foreach (WorkTime w in listView.SelectedItems)
+                        {
+                            if (w.Id != wt.Id && w.Project != wt.Project)
+                            {
+                                w.Project = wt.Project;
+                                database.UpdateWorkTime(w);
+                            }
+                        }
+                    }
                     database.UpdateWorkTime(wt);
                     CollectionViewSource.GetDefaultView(listView.ItemsSource).Refresh();
                     UpdateTotalHours();

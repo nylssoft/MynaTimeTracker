@@ -28,6 +28,7 @@
         <CommandBinding Command="self:CustomCommands.Stop" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Add" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Edit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
+        <CommandBinding Command="self:CustomCommands.Merge" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Remove" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.Exit" CanExecute="Command_CanExecute" Executed="Command_Executed" />
         <CommandBinding Command="self:CustomCommands.About" CanExecute="Command_CanExecute" Executed="Command_Executed" />
@@ -90,6 +91,8 @@
                                 <Image Source="Images/16x16/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
+                        <Separator/>
+                        <MenuItem Command="self:CustomCommands.Merge" />
                     </MenuItem>
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_HELP}">
                         <MenuItem Command="self:CustomCommands.About">

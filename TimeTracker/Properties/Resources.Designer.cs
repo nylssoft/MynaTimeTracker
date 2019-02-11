@@ -196,6 +196,15 @@ namespace TimeTracker.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Merge ähnelt.
+        /// </summary>
+        public static string CMD_MERGE {
+            get {
+                return ResourceManager.GetString("CMD_MERGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Next ähnelt.
         /// </summary>
         public static string CMD_NEXT {

@@ -26,7 +26,7 @@ namespace TimeTracker
     {
         public WorkTime WorkTime { get; set; }
 
-        public EditWindow(Window owner, String title, WorkTime wt, ObservableCollection<Project> projects, DateTime? defaultDateTime = null, Project defaultProject = null)
+        public EditWindow(Window owner, string title, WorkTime wt, ObservableCollection<Project> projects, bool multipleSelection, DateTime? defaultDateTime = null, Project defaultProject = null)
         {
             Owner = owner;
             Title = title;
@@ -50,6 +50,14 @@ namespace TimeTracker
                         comboBoxProject.SelectedItem = p;
                     }
                 }
+                if (multipleSelection)
+                {
+                    textBoxStartHour.IsEnabled = false;
+                    textBoxStartMinute.IsEnabled = false;
+                    textBoxEndHour.IsEnabled = false;
+                    textBoxEndMinute.IsEnabled = false;
+                    textBoxDescription.IsEnabled = false;
+                }
             }
             else
             {
@@ -61,7 +69,14 @@ namespace TimeTracker
                 textBoxEndHour.Text = "00";
                 textBoxEndMinute.Text = "00";
             }
-            textBoxStartHour.Focus();
+            if (multipleSelection)
+            {
+                comboBoxProject.Focus();
+            }
+            else
+            {
+                textBoxStartHour.Focus();
+            }
             UpdateControls();
         }
 
@@ -112,7 +127,7 @@ namespace TimeTracker
                     int.TryParse(textBoxEndMinute.Text, out int endminute) && endminute >= 0 && endminute <= 59 &&
                     datePicker.SelectedDate.HasValue &&
                     comboBoxProject.SelectedItem != null &&
-                    ( (endhour > starthour) || (endhour == starthour && endminute >= startminute) ) )
+                    ((endhour > starthour) || (endhour == starthour && endminute >= startminute)))
                 {
                     var dt = new DateTime(datePicker.SelectedDate.Value.Year, datePicker.SelectedDate.Value.Month, datePicker.SelectedDate.Value.Day);
                     WorkTime.StartTime = new DateTime(dt.Year, dt.Month, dt.Day, starthour, startminute, 0);
