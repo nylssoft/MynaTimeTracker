@@ -92,7 +92,11 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Command="self:CustomCommands.Merge" />
+                        <MenuItem Command="self:CustomCommands.Merge">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/edit-copy-7.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="{x:Static props:Resources.MENUITEM_HELP}">
                         <MenuItem Command="self:CustomCommands.About">
@@ -201,6 +205,26 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="self:CustomCommands.Edit">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/edit.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="self:CustomCommands.Remove">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/list-remove-4.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Command="self:CustomCommands.Merge">
+                            <MenuItem.Icon>
+                                <Image Source="Images/16x16/edit-copy-7.png" Style="{StaticResource ImageEnabled}" Width="16" Height="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
         </DockPanel>
     </Grid>

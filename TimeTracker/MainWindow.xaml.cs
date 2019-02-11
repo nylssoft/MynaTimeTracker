@@ -1,6 +1,6 @@
 ﻿/*
     Myna Time Tracker
-    Copyright (C) 2018 Niels Stockfleth
+    Copyright (C) 2018-2019 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -230,7 +229,7 @@ namespace TimeTracker
                     InsertWorkTime();
                     break;
                 case "Merge":
-                    MerkWorkTimes();
+                    MergeWorkTimes();
                     break;
                 case "ConfigureProjects":
                     ConfigureProjects();
@@ -454,12 +453,11 @@ namespace TimeTracker
             }
         }
 
-        private void MerkWorkTimes()
+        private void MergeWorkTimes()
         {
             try
             {
                 if (listView.SelectedItems.Count < 2) return;
-                var idx = listView.SelectedIndex;
                 WorkTime baseEntry = listView.SelectedItem as WorkTime;
                 var startTime = baseEntry.StartTime;
                 var endTime = baseEntry.EndTime;
@@ -479,21 +477,30 @@ namespace TimeTracker
                         deleteWorkTimes.Add(wt);
                     }
                 }
-                baseEntry.StartTime = startTime;
-                baseEntry.EndTime = endTime;
-                database.UpdateWorkTime(baseEntry);
-                foreach (var wt in deleteWorkTimes)
+                if (MessageBox.Show(
+                    Properties.Resources.QUESTION_MERGE_ITEMS,
+                    Title, MessageBoxButton.YesNo,
+                    MessageBoxImage.Question,
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    database.DeleteWorkTime(wt);
-                    workTimes.Remove(wt);
+                    var idx = listView.SelectedIndex;
+                    baseEntry.StartTime = startTime;
+                    baseEntry.EndTime = endTime;
+                    database.UpdateWorkTime(baseEntry);
+                    foreach (var wt in deleteWorkTimes)
+                    {
+                        database.DeleteWorkTime(wt);
+                        workTimes.Remove(wt);
+                    }
+                    UpdateTotalHours();
+                    idx = Math.Min(idx, listView.Items.Count - 1);
+                    if (idx >= 0)
+                    {
+                        listView.SelectedIndex = idx;
+                        listView.FocusItem(idx);
+                    }
                 }
-                UpdateTotalHours();
-                idx = Math.Min(idx, listView.Items.Count - 1);
-                if (idx >= 0)
-                {
-                    listView.SelectedIndex = idx;
-                    listView.FocusItem(idx);
-                }
+
             }
             catch (Exception ex)
             {

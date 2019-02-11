@@ -282,8 +282,11 @@
   <data name="QUESTION_DELETE_ITEMS" xml:space="preserve">
     <value>Wollen Sie die ausgewählten Arbeitszeiten löschen?</value>
   </data>
+  <data name="QUESTION_MERGE_ITEMS" xml:space="preserve">
+    <value>Wollen Sie die ausgewählten Arbeitszeiten zu einem Eintrag zusammenführen?</value>
+  </data>
   <data name="TEXT_COPYRIGHT" xml:space="preserve">
-    <value>Copyright 2018 Niels Stockfleth
+    <value>Copyright 2018-2019 Niels Stockfleth
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
