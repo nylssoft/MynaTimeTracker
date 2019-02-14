@@ -1,6 +1,6 @@
 ﻿/*
     Myna Time Tracker
-    Copyright (C) 2018 Niels Stockfleth
+    Copyright (C) 2018-2019 Niels Stockfleth
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -96,6 +96,8 @@ namespace TimeTracker
             {
                 var p = database.InsertProject(txt);
                 projects.Add(p);
+                listBoxProject.ScrollIntoView(p);
+                listBoxProject.SelectedItem = p;
                 textBoxProject.Text = "";
                 Changed = true;
                 UpdateControls();
@@ -126,7 +128,7 @@ namespace TimeTracker
         private void ButtonEditProject_Click(object sender, RoutedEventArgs e)
         {
             if (listBoxProject.SelectedItems.Count != 1) return;
-            Project prj = listBoxProject.SelectedItem as Project;
+            var prj = listBoxProject.SelectedItem as Project;
             if (prj == null) return;
             var w = new EditProjectWindow(this, Properties.Resources.TITLE_EDIT_PROJECT, prj, projects);
             if (w.ShowDialog() == true)
@@ -134,6 +136,8 @@ namespace TimeTracker
                 try
                 {
                     database.RenameProject(prj, w.ProjectName);
+                    var viewlist = (CollectionView)CollectionViewSource.GetDefaultView(listBoxProject.ItemsSource);
+                    viewlist.Refresh();
                     SelectProject(prj);
                     Changed = true;
                     UpdateControls();
@@ -149,8 +153,8 @@ namespace TimeTracker
         {
             if (listBoxProject.SelectedItems.Count > 0)
             {
-                int idx = listBoxProject.SelectedIndex;
-                List<Project> tobedeleted = new List<Project>();
+                var idx = listBoxProject.SelectedIndex;
+                var tobedeleted = new List<Project>();
                 foreach (Project p in listBoxProject.SelectedItems)
                 {
                     if (!projectsInUse.Contains(p))
