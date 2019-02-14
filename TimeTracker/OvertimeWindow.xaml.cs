@@ -170,6 +170,7 @@ namespace TimeTracker
                     dt = dt.AddDays(1.0);
                 }
                 textBlockResult.Text = string.Format(Properties.Resources.TEXT_TOTAL_OVERTIME_0, DurationValueConverter.Convert(overTime));
+                var items = new List<WeekOvertime>();
                 foreach (var elem in weekInfo)
                 {
                     var weekovertime = new WeekOvertime(
@@ -177,7 +178,12 @@ namespace TimeTracker
                         elem.Key.Item2,
                         elem.Value.Item1,
                         elem.Value.Item2);
-                    weekOvertimes.Add(weekovertime);
+                    items.Add(weekovertime);
+                }
+                items.Reverse();
+                foreach (var item in items)
+                {
+                    weekOvertimes.Add(item);
                 }
             }
             catch (Exception ex)
