@@ -28,7 +28,7 @@ The program requires .NET framework v4.7.
 
 ### Configure Projects
 
-![Configure Projects](Screenshots/mynatimetracker_configureprojects.png.png)
+![Configure Projects](Screenshots/mynatimetracker_configureprojects.png)
 
 ### Overtime Calculation
 
