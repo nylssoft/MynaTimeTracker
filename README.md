@@ -1,10 +1,47 @@
 # MynaTimeTracker
 
+## Overview
+
 An application that allows to record and manage working times for Windows using WPF.
 
-Licenses:
+![Myna Time Tracker Screenshot](Screenshots/mynatimetracker.png)
 
-The following icons are used from the Open Icon Library (https://sourceforge.net/projects/openiconlibrary):
+## Installation
+
+The latest MSI file can be found here: https://github.com/nylssoft/MynaTimeTracker/releases/download/v1.0.4.0/MynaTimeTracker.msi
+
+The program requires .NET framework v4.7.
+
+## Screenshots
+
+### File Menu Item
+
+![File Menu Item Screenshot](Screenshots/mynatimetracker_file.png)
+
+### Edit Menu Item
+
+![Edit Menu Item Screenshot](Screenshots/mynatimetracker_edit.png)
+
+### Add Working Time
+
+![Add Working Time Screenshot](Screenshots/mynatimetracker_addentry.png)
+
+### Configure Projects
+
+![Configure Projects](Screenshots/mynatimetracker_configureprojects.png.png)
+
+### Overtime Calculation
+
+![Overtime Calculation](Screenshots/mynatimetracker_overtime.png)
+
+## Build
+
+- Build with VS 2017
+- WiX ToolSet is required to build a MSI, see https://http://wixtoolset.org/
+
+## Licenses
+
+The following icons are used from the **Open Icon Library** (https://sourceforge.net/projects/openiconlibrary):
 
 application-exit-5.png / nuovext2 / LGPL-2.1<br>
 arrow-left-2.png / nuvola / LGPL-2.1<br>
