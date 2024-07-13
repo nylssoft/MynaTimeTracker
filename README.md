@@ -8,8 +8,6 @@ An application that allows to record and manage working times for Windows using 
 
 ## Installation
 
-The latest MSI file can be found here: https://github.com/nylssoft/MynaTimeTracker/releases/download/v1.0.4.0/MynaTimeTracker.msi
-
 The program requires .NET framework v4.7.
 
 ## Screenshots
@@ -36,7 +34,7 @@ The program requires .NET framework v4.7.
 
 ## Build
 
-- Build with VS 2017
+- Build with VS 2022
 - WiX ToolSet is required to build a MSI, see https://wixtoolset.org/
 
 ## Licenses
