@@ -8,7 +8,7 @@ An application that allows to record and manage working times for Windows using 
 
 ## Installation
 
-The program requires .NET framework v4.7.
+The program requires .NET 8.
 
 ## Screenshots
 
@@ -31,11 +31,6 @@ The program requires .NET framework v4.7.
 ### Overtime Calculation
 
 ![Overtime Calculation](Screenshots/mynatimetracker_overtime.png)
-
-## Build
-
-- Build with VS 2022
-- WiX ToolSet is required to build a MSI, see https://wixtoolset.org/
 
 ## Licenses
 
