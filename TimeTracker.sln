@@ -1,28 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracker", "TimeTracker\TimeTracker.csproj", "{F9AAD218-B9C0-404A-A4C6-D8B66544CC98}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TimeTrackerSetup", "TimeTrackerSetup\TimeTrackerSetup.wixproj", "{3EEA1264-5E8D-496D-82F4-B67A9A3D8477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTracker", "TimeTracker\TimeTracker.csproj", "{E3028C40-0972-4402-902A-6947979065B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F9AAD218-B9C0-404A-A4C6-D8B66544CC98}.Debug|x86.ActiveCfg = Debug|x86
-		{F9AAD218-B9C0-404A-A4C6-D8B66544CC98}.Debug|x86.Build.0 = Debug|x86
-		{F9AAD218-B9C0-404A-A4C6-D8B66544CC98}.Release|x86.ActiveCfg = Release|x86
-		{F9AAD218-B9C0-404A-A4C6-D8B66544CC98}.Release|x86.Build.0 = Release|x86
-		{3EEA1264-5E8D-496D-82F4-B67A9A3D8477}.Debug|x86.ActiveCfg = Debug|x86
-		{3EEA1264-5E8D-496D-82F4-B67A9A3D8477}.Debug|x86.Build.0 = Debug|x86
-		{3EEA1264-5E8D-496D-82F4-B67A9A3D8477}.Release|x86.ActiveCfg = Release|x86
-		{3EEA1264-5E8D-496D-82F4-B67A9A3D8477}.Release|x86.Build.0 = Release|x86
+		{E3028C40-0972-4402-902A-6947979065B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3028C40-0972-4402-902A-6947979065B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3028C40-0972-4402-902A-6947979065B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3028C40-0972-4402-902A-6947979065B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6210F130-5FE3-4121-B836-3EC4B648939C}
 	EndGlobalSection
 EndGlobal
