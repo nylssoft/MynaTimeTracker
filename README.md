@@ -8,7 +8,7 @@ An application that allows to record and manage working times for Windows using 
 
 ## Installation
 
-The program requires .NET 8.
+The program requires .NET 9.
 
 ## Screenshots
 
