@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Niels Stockfleth</Authors>
     <Company>NylsSoft</Company>
     <Product>Myna Time Tracker</Product>
-    <Copyright>2024 Niels Stockfleth</Copyright>
+    <Copyright>2025 Niels Stockfleth</Copyright>
     <ApplicationIcon>logo.ico</ApplicationIcon>
-    <Version>8.0.1</Version>
+    <Version>9.0.1</Version>
     <AssemblyName>MynaTimeTracker</AssemblyName>
-    <AssemblyVersion>8.0.1</AssemblyVersion>
+    <AssemblyVersion>9.0.1</AssemblyVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
